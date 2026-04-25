@@ -1,6 +1,37 @@
+"use client";
+
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useAuth } from "@/lib/auth-store";
+import { ApiError } from "@/lib/api";
 
 export default function LoginPage() {
+  const router = useRouter();
+  const { login } = useAuth();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    setSubmitting(true);
+    try {
+      await login(email, password);
+      router.push("/dashboard");
+    } catch (err) {
+      const message =
+        err instanceof ApiError
+          ? err.message
+          : "เข้าสู่ระบบไม่สำเร็จ ลองใหม่อีกครั้ง";
+      setError(message);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   return (
     <div>
       <div className="mb-8">
@@ -14,13 +45,21 @@ export default function LoginPage() {
         </p>
       </div>
 
-      <form className="space-y-4" action="/dashboard">
+      {error && (
+        <div className="mb-4 p-3 rounded-lg bg-red-50 border border-red-200 text-sm text-red-700">
+          {error}
+        </div>
+      )}
+
+      <form className="space-y-4" onSubmit={onSubmit}>
         <div>
           <label htmlFor="email" className="label">อีเมล</label>
           <input
             id="email"
             type="email"
             required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             placeholder="you@example.com"
             className="input"
           />
@@ -36,28 +75,16 @@ export default function LoginPage() {
             id="password"
             type="password"
             required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             placeholder="••••••••"
             className="input"
           />
         </div>
-        <label className="flex items-center gap-2 text-sm">
-          <input type="checkbox" className="rounded border-line text-brand focus:ring-brand" />
-          <span>จดจำฉันไว้</span>
-        </label>
-        <button type="submit" className="btn-primary w-full py-3">
-          เข้าสู่ระบบ
+        <button type="submit" disabled={submitting} className="btn-primary w-full py-3">
+          {submitting ? "กำลังเข้าสู่ระบบ..." : "เข้าสู่ระบบ"}
         </button>
       </form>
-
-      <div className="my-6 flex items-center gap-3">
-        <div className="flex-1 h-px bg-line" />
-        <span className="text-xs text-ink-muted">หรือ</span>
-        <div className="flex-1 h-px bg-line" />
-      </div>
-
-      <button className="btn-ghost w-full py-3 border border-line">
-        <span>เข้าสู่ระบบด้วย Google</span>
-      </button>
     </div>
   );
 }

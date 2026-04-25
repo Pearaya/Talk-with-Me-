@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { usePortfolio } from "@/lib/portfolio-store";
+import { usePortfolio, SaveStatus } from "@/lib/portfolio-store";
+import { useAuth } from "@/lib/auth-store";
 import { PortfolioRender } from "@/components/portfolio/PortfolioRender";
 import {
   HeaderSection,
@@ -29,12 +30,32 @@ const tabs = [
 type TabId = (typeof tabs)[number]["id"];
 
 export default function EditPortfolioPage() {
-  const { portfolio, hydrated, save, reset } = usePortfolio();
+  const { user, loading: authLoading } = useAuth();
+  const {
+    portfolio,
+    shareToken,
+    loading,
+    saveStatus,
+    error,
+    authRequired,
+    save,
+    reset,
+  } = usePortfolio();
   const [tab, setTab] = useState<TabId>("header");
   const [previewMode, setPreviewMode] = useState(false);
 
-  if (!hydrated) {
+  if (authLoading || loading) {
     return <div className="p-10 text-center text-ink-muted">กำลังโหลด...</div>;
+  }
+
+  if (!user || authRequired) {
+    return (
+      <div className="max-w-md mx-auto px-6 py-16 text-center">
+        <div className="text-5xl mb-4">🔒</div>
+        <h1 className="text-2xl font-bold mb-2">กรุณาเข้าสู่ระบบ</h1>
+        <Link href="/auth/login" className="btn-primary">เข้าสู่ระบบ</Link>
+      </div>
+    );
   }
 
   if (!portfolio) {
@@ -71,19 +92,23 @@ export default function EditPortfolioPage() {
     }
   };
 
+  const publicHref = shareToken ? `/portfolio/view/${shareToken}` : null;
+
   if (previewMode) {
     return (
       <div>
         <div className="bg-ink text-white py-3 px-6 flex items-center justify-between gap-4 sticky top-14 z-30">
           <div className="text-sm font-semibold">👁 โหมด Preview</div>
           <div className="flex gap-2">
-            <Link
-              href={`/portfolio/view/me`}
-              target="_blank"
-              className="text-sm px-3 py-1.5 rounded bg-white/10 hover:bg-white/20"
-            >
-              เปิดหน้าเต็ม ↗
-            </Link>
+            {publicHref && (
+              <Link
+                href={publicHref}
+                target="_blank"
+                className="text-sm px-3 py-1.5 rounded bg-white/10 hover:bg-white/20"
+              >
+                เปิดหน้าเต็ม ↗
+              </Link>
+            )}
             <button
               onClick={() => setPreviewMode(false)}
               className="text-sm px-3 py-1.5 rounded bg-brand hover:bg-brand/90"
@@ -133,9 +158,7 @@ export default function EditPortfolioPage() {
         <div className="p-6 flex-1 overflow-y-auto">{renderTab()}</div>
 
         <div className="px-6 py-4 border-t border-line flex items-center justify-between bg-surface-alt/50">
-          <div className="text-xs text-ink-muted">
-            ✓ บันทึกอัตโนมัติ (localStorage)
-          </div>
+          <SaveIndicator status={saveStatus} error={error} />
           <div className="flex gap-2">
             <button
               onClick={() => {
@@ -145,13 +168,11 @@ export default function EditPortfolioPage() {
             >
               ลบทิ้ง
             </button>
-            <Link
-              href="/portfolio/view/me"
-              target="_blank"
-              className="btn-secondary text-sm"
-            >
-              เปิด Public View ↗
-            </Link>
+            {publicHref && (
+              <Link href={publicHref} target="_blank" className="btn-secondary text-sm">
+                เปิด Public View ↗
+              </Link>
+            )}
           </div>
         </div>
       </section>
@@ -174,4 +195,11 @@ export default function EditPortfolioPage() {
       </section>
     </div>
   );
+}
+
+function SaveIndicator({ status, error }: { status: SaveStatus; error: string | null }) {
+  if (status === "saving") return <span className="text-xs text-ink-muted">⏳ กำลังบันทึก...</span>;
+  if (status === "saved") return <span className="text-xs text-green-600 font-semibold">✓ บันทึกแล้ว</span>;
+  if (status === "error") return <span className="text-xs text-red-600 font-semibold">⚠ {error ?? "บันทึกไม่สำเร็จ"}</span>;
+  return <span className="text-xs text-ink-muted">บันทึกอัตโนมัติเมื่อแก้ไข</span>;
 }

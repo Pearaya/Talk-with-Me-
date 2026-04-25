@@ -1,71 +1,186 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
-import { Portfolio, samplePortfolio, emptyPortfolio } from "./portfolio-types";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { api, ApiError } from "./api";
+import {
+  Portfolio,
+  TemplateId,
+  emptyPortfolio,
+  samplePortfolio,
+} from "./portfolio-types";
 
-const STORAGE_KEY = "coaching-platform:portfolio:v1";
+export type SaveStatus = "idle" | "saving" | "saved" | "error";
 
-function readPortfolio(): Portfolio | null {
-  if (typeof window === "undefined") return null;
-  try {
-    const raw = window.localStorage.getItem(STORAGE_KEY);
-    if (!raw) return null;
-    return JSON.parse(raw) as Portfolio;
-  } catch {
-    return null;
-  }
+type ApiPortfolio = {
+  id: string;
+  userId: string;
+  templateId: TemplateId;
+  content: Omit<Portfolio, "templateId" | "isPublic">;
+  isPublic: boolean;
+  shareToken: string;
+  viewCount: number;
+};
+
+type ApiResponse = { portfolio: ApiPortfolio | null };
+
+function toApi(p: Portfolio) {
+  const { templateId, isPublic, ...content } = p;
+  return { templateId, isPublic, content };
 }
 
-function writePortfolio(p: Portfolio) {
-  if (typeof window === "undefined") return;
-  window.localStorage.setItem(STORAGE_KEY, JSON.stringify(p));
-  window.dispatchEvent(new CustomEvent("portfolio:updated"));
+function fromApi(api: ApiPortfolio): Portfolio {
+  return {
+    templateId: api.templateId,
+    isPublic: api.isPublic,
+    ...api.content,
+  };
 }
 
 export function usePortfolio() {
   const [portfolio, setPortfolio] = useState<Portfolio | null>(null);
-  const [hydrated, setHydrated] = useState(false);
+  const [shareToken, setShareToken] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [saveStatus, setSaveStatus] = useState<SaveStatus>("idle");
+  const [error, setError] = useState<string | null>(null);
+  const [authRequired, setAuthRequired] = useState(false);
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    setPortfolio(readPortfolio());
-    setHydrated(true);
-
-    const onUpdate = () => setPortfolio(readPortfolio());
-    window.addEventListener("portfolio:updated", onUpdate);
-    window.addEventListener("storage", onUpdate);
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await api.get<ApiResponse>("/portfolio/me");
+        if (cancelled) return;
+        if (res.portfolio) {
+          setPortfolio(fromApi(res.portfolio));
+          setShareToken(res.portfolio.shareToken);
+        }
+      } catch (err) {
+        if (cancelled) return;
+        if (err instanceof ApiError && err.status === 401) {
+          setAuthRequired(true);
+        } else {
+          setError(err instanceof Error ? err.message : "โหลดข้อมูลไม่สำเร็จ");
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    })();
     return () => {
-      window.removeEventListener("portfolio:updated", onUpdate);
-      window.removeEventListener("storage", onUpdate);
+      cancelled = true;
     };
   }, []);
 
-  const save = useCallback((next: Portfolio) => {
-    writePortfolio(next);
-    setPortfolio(next);
-  }, []);
-
-  const reset = useCallback(() => {
-    if (typeof window !== "undefined") {
-      window.localStorage.removeItem(STORAGE_KEY);
-      window.dispatchEvent(new CustomEvent("portfolio:updated"));
+  const persist = useCallback(async (p: Portfolio) => {
+    setSaveStatus("saving");
+    setError(null);
+    try {
+      const res = await api.put<ApiResponse>("/portfolio/me", toApi(p));
+      if (res.portfolio) setShareToken(res.portfolio.shareToken);
+      setSaveStatus("saved");
+      setTimeout(() => {
+        setSaveStatus((s) => (s === "saved" ? "idle" : s));
+      }, 2000);
+    } catch (err) {
+      if (err instanceof ApiError && err.status === 401) {
+        setAuthRequired(true);
+      }
+      setSaveStatus("error");
+      setError(err instanceof Error ? err.message : "บันทึกไม่สำเร็จ");
     }
-    setPortfolio(null);
   }, []);
 
-  const seedSample = useCallback(() => {
-    const p = samplePortfolio();
-    writePortfolio(p);
-    setPortfolio(p);
-  }, []);
-
-  const createEmpty = useCallback(
-    (templateId: Portfolio["templateId"] = "minimal") => {
-      const p = { ...emptyPortfolio(), templateId };
-      writePortfolio(p);
-      setPortfolio(p);
+  // Debounced auto-save when caller updates the portfolio object
+  const save = useCallback(
+    (next: Portfolio) => {
+      setPortfolio(next);
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+      debounceRef.current = setTimeout(() => {
+        persist(next);
+      }, 600);
     },
-    []
+    [persist]
   );
 
-  return { portfolio, hydrated, save, reset, seedSample, createEmpty };
+  // Immediate save (no debounce) — used for create/seed/templateChange
+  const saveNow = useCallback(
+    async (next: Portfolio) => {
+      setPortfolio(next);
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+      await persist(next);
+    },
+    [persist]
+  );
+
+  const seedSample = useCallback(async () => {
+    await saveNow(samplePortfolio());
+  }, [saveNow]);
+
+  const createEmpty = useCallback(
+    async (templateId: TemplateId = "minimal") => {
+      await saveNow({ ...emptyPortfolio(), templateId });
+    },
+    [saveNow]
+  );
+
+  const reset = useCallback(async () => {
+    try {
+      await api.del("/portfolio/me");
+    } catch (err) {
+      if (err instanceof ApiError && err.status === 401) {
+        setAuthRequired(true);
+      } else {
+        setError(err instanceof Error ? err.message : "ลบไม่สำเร็จ");
+        return;
+      }
+    }
+    setPortfolio(null);
+    setShareToken(null);
+  }, []);
+
+  return {
+    portfolio,
+    shareToken,
+    loading,
+    saveStatus,
+    error,
+    authRequired,
+    save,
+    seedSample,
+    createEmpty,
+    reset,
+  };
+}
+
+export function usePublicPortfolio(token: string) {
+  const [portfolio, setPortfolio] = useState<Portfolio | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<{ status: number; message: string } | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await api.get<ApiResponse>(
+          `/portfolio/share/${encodeURIComponent(token)}`
+        );
+        if (cancelled) return;
+        if (res.portfolio) setPortfolio(fromApi(res.portfolio));
+      } catch (err) {
+        if (cancelled) return;
+        if (err instanceof ApiError) {
+          setError({ status: err.status, message: err.message });
+        } else {
+          setError({ status: 0, message: err instanceof Error ? err.message : "Unknown error" });
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [token]);
+
+  return { portfolio, loading, error };
 }

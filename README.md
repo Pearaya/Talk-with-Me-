@@ -12,17 +12,40 @@ Management Coaching Platform — Next.js frontend + Express/Prisma/Postgres back
 ## Phases done
 
 - **Phase 1** — Frontend scaffold: Next.js 14 + Tailwind, design tokens, all routes, Landing/Auth/Onboarding/Dashboard
-- **Phase 2** — Portfolio builder: 3 templates, tabbed editor, live preview, public view (localStorage-backed)
+- **Phase 2** — Portfolio builder: 3 templates, tabbed editor, live preview, public view
 - **Phase 3** — Backend service: Express + Prisma + PostgreSQL + JWT (access + rotating refresh tokens), auth + portfolio endpoints
+- **Phase 4** — Wire frontend to backend: real login/register, API-backed portfolio store with debounced auto-save, logout in nav
 
-## Frontend
+## Run end-to-end (recommended)
+
+You need **both** the backend (with Postgres) and the frontend running.
+
+```bash
+# 1) Backend
+cd server
+cp .env.example .env
+docker compose up -d
+npm install
+npm run prisma:generate
+npm run prisma:migrate -- --name init
+npm run dev                  # http://localhost:4000
+
+# 2) Frontend (in another terminal, from repo root)
+cp .env.example .env.local   # NEXT_PUBLIC_API_URL=http://localhost:4000/api/v1
+npm install
+npm run dev                  # http://localhost:3000
+```
+
+Then: register at `/auth/register` → fill onboarding → go to `/portfolio/create` → load sample → edit (auto-saves to API) → click "เปิด Public View" to share.
+
+## Frontend only (no backend)
 
 ```bash
 npm install
 npm run dev
 ```
 
-Open http://localhost:3000
+You can still browse Landing/Auth/Onboarding/Dashboard/Coaches/Jobs UI, but Portfolio and Login will fail without the backend.
 
 ## Backend
 
@@ -78,6 +101,5 @@ lib/mock-data.ts              # Mock data for Phase 1
 
 ## Next Phases
 
-- **Phase 4** — Wire frontend portfolio store to backend (replace localStorage with `/api/v1/portfolio` calls + login flow)
 - **Phase 5** — Coaches, Sessions, Jobs endpoints + admin endpoints + file uploads
-- **Phase 6** — Notifications, analytics, Redis cache
+- **Phase 6** — Notifications, analytics, Redis cache + rate limiting

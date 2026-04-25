@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Sarabun, IBM_Plex_Mono } from "next/font/google";
+import { AuthProvider } from "@/lib/auth-store";
 import "./globals.css";
 
 const sarabun = Sarabun({
@@ -28,7 +29,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="th" className={`${sarabun.variable} ${mono.variable}`}>
-      <body>{children}</body>
+      <body>
+        <AuthProvider>{children}</AuthProvider>
+      </body>
     </html>
   );
 }
