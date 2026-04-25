@@ -18,13 +18,16 @@ npm run prisma:generate
 # 3) Run first migration (creates tables)
 npm run prisma:migrate -- --name init
 
-# 4) Start dev server (auto-reload on changes)
+# 4) Seed sample data (skills, 3 coaches, 3 jobs, 1 admin)
+npm run prisma:seed
+
+# 5) Start dev server (auto-reload on changes)
 npm run dev
 ```
 
 Server runs on http://localhost:4000
 
-## Endpoints (Phase 3)
+## Endpoints
 
 Base URL: `/api/v1`
 
@@ -37,6 +40,13 @@ Base URL: `/api/v1`
 | POST | `/logout` | refresh cookie | Revokes refresh token |
 | GET  | `/me` | access | Returns current user |
 
+### Users (`/users`)
+| Method | Path | Auth | Notes |
+|---|---|---|---|
+| GET  | `/me` | access | Profile + skills |
+| PUT  | `/me` | access | Update profile |
+| POST | `/onboarding` | access | Save onboarding answers (status/workType/skills/goal) |
+
 ### Portfolio (`/portfolio`)
 | Method | Path | Auth | Notes |
 |---|---|---|---|
@@ -44,6 +54,63 @@ Base URL: `/api/v1`
 | PUT | `/me` | access | Upsert caller's portfolio |
 | DELETE | `/me` | access | Delete caller's portfolio |
 | GET | `/share/:token` | — | Public read by share token (404 if private) |
+
+### Coaches (`/coaches`)
+| Method | Path | Auth | Notes |
+|---|---|---|---|
+| GET | `/` | — | List + filters: `search`, `skill`, `minRating`, `maxRate`, `page`, `pageSize` |
+| GET | `/:id` | — | Coach profile |
+| GET | `/:id/availability` | — | Availability slots |
+| POST | `/me` | access | Become a coach (also bumps role to COACH) |
+| PUT | `/me` | access (coach) | Update own coach profile |
+| POST | `/:id/review` | access | Write review (1–5) |
+
+### Sessions (`/sessions`)
+| Method | Path | Auth | Notes |
+|---|---|---|---|
+| GET | `/` | access | All sessions for current user |
+| GET | `/upcoming` | access | Next 5 upcoming |
+| GET | `/report` | access | Stats `{ done, upcoming, total }` |
+| POST | `/` | access | Book a session |
+| GET | `/:id` | access (user/coach/admin) | Detail |
+| PUT | `/:id` | access (user/coach) | Update notes/outcomes/status |
+| DELETE | `/:id` | access (user) | Cancel |
+
+### Jobs (`/jobs`)
+| Method | Path | Auth | Notes |
+|---|---|---|---|
+| GET | `/` | — | List + filters |
+| GET | `/matched` | access | Sorted by skill-overlap match score |
+| GET | `/:id` | — | Detail |
+
+### Goals (`/goals`)
+| Method | Path | Auth | Notes |
+|---|---|---|---|
+| GET | `/` | access | List own goals |
+| POST | `/` | access | Create goal |
+| PUT | `/:id` | access | Update progress/status |
+| DELETE | `/:id` | access | Delete |
+
+### Skills (`/skills`)
+| Method | Path | Auth | Notes |
+|---|---|---|---|
+| GET | `/` | — | Skill list (?search= for autocomplete) |
+
+### Admin (`/admin`) — `ADMIN` role required
+| Method | Path | Notes |
+|---|---|---|
+| GET  | `/users` | List recent users |
+| GET  | `/coaches` | All coaches (incl. unverified) |
+| PUT  | `/coaches/:id/verify` | Mark coach verified |
+| POST | `/jobs` | Create job posting |
+| GET  | `/reports` | Aggregate stats |
+
+### Upload (`/upload`)
+| Method | Path | Auth | Notes |
+|---|---|---|---|
+| POST | `/` | access | `multipart/form-data` with `file` field. Max 5MB. PNG/JPEG/WEBP/GIF/PDF. Returns `{ file: { url } }`. |
+
+Uploaded files are served from `/uploads/<filename>`.
 
 ### Health
 - `GET /health` → `{ status: "ok" }`
@@ -71,8 +138,14 @@ Base URL: `/api/v1`
 
 See `prisma/schema.prisma`. Models: `User`, `Coach`, `RefreshToken`, `Session`, `Goal`, `Skill` (+ `UserSkill`, `CoachSkill`), `CoachReview`, `Portfolio`, `Job`, `Content`.
 
+## Seeded admin
+
+After `npm run prisma:seed`:
+
+- email: `admin@coach.example`
+- password: `Admin1234!`
+
 ## Next phases
 
-- **3b** — wire frontend to backend (replace localStorage portfolio store with API; add login form posting to `/auth/login`)
-- **3c** — Coaches, Sessions, Jobs endpoints + admin endpoints
-- **3d** — Add Redis for refresh-token blacklist + rate limiting
+- Add Redis for refresh-token blacklist + rate limiting
+- Add S3/Cloudinary uploads (currently local fs in `uploads/`)

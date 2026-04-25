@@ -15,6 +15,7 @@ Management Coaching Platform — Next.js frontend + Express/Prisma/Postgres back
 - **Phase 2** — Portfolio builder: 3 templates, tabbed editor, live preview, public view
 - **Phase 3** — Backend service: Express + Prisma + PostgreSQL + JWT (access + rotating refresh tokens), auth + portfolio endpoints
 - **Phase 4** — Wire frontend to backend: real login/register, API-backed portfolio store with debounced auto-save, logout in nav
+- **Phase 5** — Coaches, Sessions, Jobs, Goals, Admin, Upload endpoints + seed; frontend wired for Coaches list/detail (with booking) and Onboarding submit
 
 ## Run end-to-end (recommended)
 
@@ -28,6 +29,7 @@ docker compose up -d
 npm install
 npm run prisma:generate
 npm run prisma:migrate -- --name init
+npm run prisma:seed          # 3 coaches, 3 jobs, admin user
 npm run dev                  # http://localhost:4000
 
 # 2) Frontend (in another terminal, from repo root)
@@ -101,5 +103,5 @@ lib/mock-data.ts              # Mock data for Phase 1
 
 ## Next Phases
 
-- **Phase 5** — Coaches, Sessions, Jobs endpoints + admin endpoints + file uploads
-- **Phase 6** — Notifications, analytics, Redis cache + rate limiting
+- **Phase 6** — Frontend wiring for Sessions, Jobs match, Admin pages
+- **Phase 7** — Notifications, analytics, Redis cache + rate limiting
