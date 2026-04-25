@@ -1,23 +1,42 @@
 # Coaching Platform
 
-Management Coaching Platform — Next.js 14 + TypeScript + Tailwind CSS
+Management Coaching Platform — Next.js frontend + Express/Prisma/Postgres backend.
 
-## Phase 1 — Frontend Scaffold (current)
+## Repo layout
 
-- Next.js 14 App Router + TypeScript + Tailwind
-- Design tokens from spec (brand `#E8581A`, Sarabun + IBM Plex Mono)
-- Routing structure ครบทุกหน้าตาม Sitemap
-- หน้าที่พัฒนาเสร็จ: **Landing**, **Login / Register / Forgot Password**, **Onboarding 4 steps**, **Dashboard**, **Coaches (list + detail)**, **Jobs (list + detail)**
-- หน้าที่เหลือเป็น placeholder รอ Phase ถัดไป
+```
+.                # Next.js 14 frontend (root)
+└── server/      # Express + TypeScript + Prisma backend (Phase 3)
+```
 
-## Getting Started
+## Phases done
+
+- **Phase 1** — Frontend scaffold: Next.js 14 + Tailwind, design tokens, all routes, Landing/Auth/Onboarding/Dashboard
+- **Phase 2** — Portfolio builder: 3 templates, tabbed editor, live preview, public view (localStorage-backed)
+- **Phase 3** — Backend service: Express + Prisma + PostgreSQL + JWT (access + rotating refresh tokens), auth + portfolio endpoints
+
+## Frontend
 
 ```bash
 npm install
 npm run dev
 ```
 
-เปิด [http://localhost:3000](http://localhost:3000)
+Open http://localhost:3000
+
+## Backend
+
+See [`server/README.md`](server/README.md). TL;DR:
+
+```bash
+cd server
+cp .env.example .env
+docker compose up -d        # postgres
+npm install
+npm run prisma:generate
+npm run prisma:migrate -- --name init
+npm run dev                  # http://localhost:4000
+```
 
 ## Scripts
 
@@ -59,7 +78,6 @@ lib/mock-data.ts              # Mock data for Phase 1
 
 ## Next Phases
 
-- **Phase 2** — Onboarding validation, Coaches filters, Coaching session booking flow
-- **Phase 3** — Portfolio builder, Learning content, Job application flow
-- **Phase 4** — Backend API (Node.js + PostgreSQL), Auth (JWT), file uploads
-- **Phase 5** — Admin panel, notifications, analytics
+- **Phase 4** — Wire frontend portfolio store to backend (replace localStorage with `/api/v1/portfolio` calls + login flow)
+- **Phase 5** — Coaches, Sessions, Jobs endpoints + admin endpoints + file uploads
+- **Phase 6** — Notifications, analytics, Redis cache

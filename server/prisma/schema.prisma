@@ -1,0 +1,237 @@
+// Prisma schema for Coaching Platform
+// docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ---------------- Enums ----------------
+
+enum Role {
+  USER
+  COACH
+  ADMIN
+}
+
+enum UserStatus {
+  PRE
+  MAMA
+  PR
+}
+
+enum WorkType {
+  FULL_TIME
+  PART_TIME
+}
+
+enum SessionStatus {
+  PENDING
+  CONFIRMED
+  DONE
+  CANCELLED
+}
+
+enum GoalStatus {
+  ACTIVE
+  DONE
+  ARCHIVED
+}
+
+enum ContentType {
+  SLIDE
+  VIDEO
+  PODCAST
+}
+
+// ---------------- Core ----------------
+
+model User {
+  id              String     @id @default(cuid())
+  email           String     @unique
+  passwordHash    String
+  name            String
+  avatarUrl       String?
+  role            Role       @default(USER)
+  status          UserStatus?
+  workType        WorkType?
+  currentPosition String?
+  company         String?
+  linkedinUrl     String?
+  portfolioUrl    String?
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+
+  coach        Coach?
+  portfolio    Portfolio?
+  goals        Goal[]
+  userSessions Session[]    @relation("SessionUser")
+  userSkills   UserSkill[]
+  reviews      CoachReview[] @relation("ReviewAuthor")
+  refreshTokens RefreshToken[]
+}
+
+model Coach {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bio             String?
+  experienceYears Int?
+  hourlyRate      Int?
+  rating          Float    @default(0)
+  reviewCount     Int      @default(0)
+  availability    Json?
+  isVerified      Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  coachSessions Session[]      @relation("SessionCoach")
+  coachSkills   CoachSkill[]
+  reviews       CoachReview[]
+}
+
+model RefreshToken {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String   @unique
+  expiresAt DateTime
+  revokedAt DateTime?
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+// ---------------- Coaching ----------------
+
+model Session {
+  id          String        @id @default(cuid())
+  userId      String
+  user        User          @relation("SessionUser", fields: [userId], references: [id], onDelete: Cascade)
+  coachId     String
+  coach       Coach         @relation("SessionCoach", fields: [coachId], references: [id], onDelete: Cascade)
+  scheduledAt DateTime
+  durationMin Int           @default(60)
+  status      SessionStatus @default(PENDING)
+  notes       String?
+  outcomes    String?
+  meetingUrl  String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([userId])
+  @@index([coachId])
+}
+
+model Goal {
+  id           String     @id @default(cuid())
+  userId       String
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title        String
+  description  String?
+  targetSkills String[]
+  deadline     DateTime?
+  progress     Int        @default(0)
+  status       GoalStatus @default(ACTIVE)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  @@index([userId])
+}
+
+// ---------------- Skills ----------------
+
+model Skill {
+  id       String       @id @default(cuid())
+  name     String       @unique
+  category String?
+
+  users  UserSkill[]
+  coaches CoachSkill[]
+}
+
+model UserSkill {
+  userId  String
+  skillId String
+  level   Int    @default(3)
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  skill   Skill  @relation(fields: [skillId], references: [id], onDelete: Cascade)
+
+  @@id([userId, skillId])
+}
+
+model CoachSkill {
+  coachId String
+  skillId String
+  coach   Coach @relation(fields: [coachId], references: [id], onDelete: Cascade)
+  skill   Skill @relation(fields: [skillId], references: [id], onDelete: Cascade)
+
+  @@id([coachId, skillId])
+}
+
+model CoachReview {
+  id        String   @id @default(cuid())
+  coachId   String
+  authorId  String
+  rating    Int
+  comment   String?
+  createdAt DateTime @default(now())
+  coach     Coach    @relation(fields: [coachId], references: [id], onDelete: Cascade)
+  author    User     @relation("ReviewAuthor", fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@index([coachId])
+}
+
+// ---------------- Portfolio ----------------
+
+model Portfolio {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  templateId  String   @default("minimal")
+  content     Json
+  isPublic    Boolean  @default(false)
+  shareToken  String   @unique @default(cuid())
+  viewCount   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// ---------------- Jobs ----------------
+
+model Job {
+  id              String   @id @default(cuid())
+  title           String
+  company         String
+  description     String
+  requirements    String?
+  requiredSkills  String[]
+  workType        WorkType?
+  industry        String?
+  location        String?
+  isActive        Boolean  @default(true)
+  postedAt        DateTime @default(now())
+
+  @@index([isActive])
+}
+
+// ---------------- Content (Learning) ----------------
+
+model Content {
+  id           String      @id @default(cuid())
+  title        String
+  type         ContentType
+  url          String
+  thumbnailUrl String?
+  durationMin  Int?
+  tags         String[]
+  targetSkills String[]
+  viewCount    Int         @default(0)
+  createdAt    DateTime    @default(now())
+
+  @@index([type])
+}
