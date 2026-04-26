@@ -16,6 +16,7 @@ Management Coaching Platform — Next.js frontend + Express/Prisma/Postgres back
 - **Phase 3** — Backend service: Express + Prisma + PostgreSQL + JWT (access + rotating refresh tokens), auth + portfolio endpoints
 - **Phase 4** — Wire frontend to backend: real login/register, API-backed portfolio store with debounced auto-save, logout in nav
 - **Phase 5** — Coaches, Sessions, Jobs, Goals, Admin, Upload endpoints + seed; frontend wired for Coaches list/detail (with booking) and Onboarding submit
+- **Phase 6** — Frontend wiring for Sessions/Jobs/Admin/Dashboard (replaces all remaining mock data with real API calls + admin role guard)
 
 ## Run end-to-end (recommended)
 
@@ -103,5 +104,4 @@ lib/mock-data.ts              # Mock data for Phase 1
 
 ## Next Phases
 
-- **Phase 6** — Frontend wiring for Sessions, Jobs match, Admin pages
-- **Phase 7** — Notifications, analytics, Redis cache + rate limiting
+- **Phase 7** — Avatar upload + profile page, notifications, analytics, Redis cache + rate limiting
