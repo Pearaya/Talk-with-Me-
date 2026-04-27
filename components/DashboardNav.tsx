@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
 import clsx from "clsx";
 import { useAuth } from "@/lib/auth-store";
+import { fileUrl } from "@/lib/upload";
 
 const items = [
   { href: "/dashboard", label: "Dashboard" },
@@ -40,6 +41,7 @@ export function DashboardNav() {
   };
 
   const initial = user?.name?.[0]?.toUpperCase() ?? "?";
+  const avatarSrc = fileUrl(user?.avatarUrl ?? null);
 
   return (
     <header className="border-b border-line bg-white sticky top-0 z-40">
@@ -79,10 +81,15 @@ export function DashboardNav() {
           <div ref={menuRef} className="relative">
             <button
               onClick={() => setMenuOpen((v) => !v)}
-              className="w-9 h-9 rounded-full bg-brand text-white font-semibold text-sm hover:opacity-90"
+              className="w-9 h-9 rounded-full bg-brand text-white font-semibold text-sm hover:opacity-90 overflow-hidden"
               aria-label="profile menu"
             >
-              {initial}
+              {avatarSrc ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={avatarSrc} alt="" className="w-full h-full object-cover" />
+              ) : (
+                initial
+              )}
             </button>
             {menuOpen && (
               <div className="absolute right-0 mt-2 w-56 card overflow-hidden text-sm">
@@ -92,6 +99,22 @@ export function DashboardNav() {
                       <div className="font-semibold truncate">{user.name}</div>
                       <div className="text-xs text-ink-muted truncate">{user.email}</div>
                     </div>
+                    <Link
+                      href="/profile"
+                      onClick={() => setMenuOpen(false)}
+                      className="block px-4 py-2.5 hover:bg-surface-alt font-semibold"
+                    >
+                      โปรไฟล์
+                    </Link>
+                    {user.role === "ADMIN" && (
+                      <Link
+                        href="/admin"
+                        onClick={() => setMenuOpen(false)}
+                        className="block px-4 py-2.5 hover:bg-surface-alt font-semibold"
+                      >
+                        Admin Panel
+                      </Link>
+                    )}
                     <button
                       onClick={handleLogout}
                       className="w-full text-left px-4 py-2.5 hover:bg-surface-alt text-red-600 font-semibold"
