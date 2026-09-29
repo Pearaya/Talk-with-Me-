@@ -1,0 +1,633 @@
+<!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SPU Venture &amp; University Holding</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anuphan:wght@300;400;500;600;700&family=Noto+Serif+Thai:wght@400;500;600&display=swap">
+<style>
+/* Layout: a book object — one printed-looking cover, then a single reading column (~34em) with chapter openers, tables in scroll wrappers, appendix at the end. */
+:root{
+  --paper:#F6F7FA; --page:#FFFFFF; --ink:#18203A; --muted:#55607A; --rule:#DCE0EA;
+  --accent:#2B54C4; --warm:#9A5A00; --panel:#EEF1F7; --mark:#FFEBB0; --mark-ink:#4A3500;
+  /* cover is a deliberate single look, identical in both themes */
+  --c-bg:#0C1430; --c-bg2:#162457; --c-amber:#F4B23E; --c-sky:#8CB8FF; --c-text:#F3F5FA; --c-dim:#AEB8D6;
+  --f-display:"Anuphan","IBM Plex Sans Thai",Tahoma,sans-serif;
+  --f-body:"Noto Serif Thai","Sarabun",Tahoma,serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --paper:#0E1322; --page:#141A2D; --ink:#E5E8F1; --muted:#A5AEC6; --rule:#2A3350;
+  --accent:#93B2FF; --warm:#F0B24F; --panel:#1B2238; --mark:#4A3A10; --mark-ink:#FFE3A0; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --paper:#0E1322; --page:#141A2D; --ink:#E5E8F1; --muted:#A5AEC6; --rule:#2A3350;
+  --accent:#93B2FF; --warm:#F0B24F; --panel:#1B2238; --mark:#4A3A10; --mark-ink:#FFE3A0; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--paper); color:var(--ink); font-family:var(--f-body); font-size:17px; line-height:1.85; padding-inline:16px; padding-block:32px 72px}
+.wrap{max-width:820px; margin:0 auto; display:flex; flex-direction:column; gap:48px}
+
+/* ---------- cover ---------- */
+.cover-stage{display:flex; justify-content:center}
+.cover{position:relative; width:100%; max-width:600px; aspect-ratio:1/1.414; background:radial-gradient(120% 80% at 85% 10%, var(--c-bg2) 0%, var(--c-bg) 60%); color:var(--c-text);
+  border-radius:4px 10px 10px 4px; overflow:hidden; box-shadow:0 30px 60px -20px rgba(8,12,30,.55), 0 2px 0 rgba(255,255,255,.04) inset;
+  display:flex; flex-direction:column; justify-content:space-between; padding:clamp(22px,6%,44px); font-family:var(--f-display)}
+.cover::before{content:""; position:absolute; left:0; top:0; bottom:0; width:14px; background:linear-gradient(90deg, rgba(0,0,0,.35), rgba(255,255,255,.05) 60%, transparent)}
+.cover svg.art{position:absolute; right:-8%; bottom:14%; width:78%; height:auto; pointer-events:none}
+.cv-top{position:relative; display:flex; flex-direction:column; gap:6px}
+.cv-org{font-size:clamp(13px,2.6vw,17px); font-weight:600; line-height:1.45; color:var(--c-text)}
+.cv-fac{font-size:clamp(12px,2.2vw,14.5px); font-weight:400; color:var(--c-dim); letter-spacing:.02em}
+.cv-rule{width:56px; height:3px; background:var(--c-amber); margin-top:12px}
+.cv-mid{position:relative; display:flex; flex-direction:column; gap:14px; max-width:92%}
+.cv-kicker{font-size:clamp(11px,2vw,13px); letter-spacing:.18em; text-transform:uppercase; color:var(--c-amber); font-weight:600}
+.cover .cv-title{font-size:clamp(34px,8.4vw,60px); line-height:1.02; font-weight:700; letter-spacing:-.01em; margin:0; text-wrap:balance; color:var(--c-text)}
+.cv-title span{color:var(--c-sky)}
+.cv-sub{font-size:clamp(14px,2.9vw,19px); line-height:1.55; font-weight:400; color:var(--c-text); max-width:30ch; margin:0}
+.cv-bot{position:relative; display:flex; justify-content:space-between; align-items:flex-end; gap:12px; flex-wrap:wrap; font-size:clamp(11.5px,2vw,13.5px); color:var(--c-dim)}
+.cv-bot b{color:var(--c-text); font-weight:600}
+
+/* ---------- book body ---------- */
+.page{background:var(--page); border:1px solid var(--rule); border-radius:6px; padding:clamp(24px,6vw,64px) clamp(20px,6vw,72px)}
+.page > * + *{margin-top:1.1em}
+h1,h2,h3,h4{font-family:var(--f-display); color:var(--ink); text-wrap:balance; line-height:1.3; margin:0}
+h2{font-size:clamp(26px,4.6vw,36px); font-weight:700}
+h3{font-size:21px; font-weight:600; margin-top:2em !important}
+h4{font-size:17.5px; font-weight:600; margin-top:1.4em !important}
+p{margin:0; max-width:36em}
+.eyebrow{font-family:var(--f-display); font-size:13px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--accent)}
+.lead{font-size:19px; line-height:1.8; color:var(--ink)}
+.muted{color:var(--muted)}
+ul,ol{margin:0; padding-left:1.4em; max-width:36em; display:flex; flex-direction:column; gap:.35em}
+li::marker{color:var(--accent); font-family:var(--f-display); font-weight:600}
+strong,b{font-weight:600}
+mark{background:var(--mark); color:var(--mark-ink); padding:0 .25em; border-radius:3px; font-family:var(--f-display); font-size:.92em}
+
+.chap-head{display:flex; flex-direction:column; gap:10px; padding-bottom:22px; border-bottom:2px solid var(--ink)}
+.chap-no{font-family:var(--f-display); font-size:clamp(56px,11vw,88px); font-weight:300; line-height:.9; color:var(--accent); font-variant-numeric:tabular-nums}
+
+.tbl{overflow-x:auto; margin-top:1.2em; border:1px solid var(--rule); border-radius:6px}
+table{border-collapse:collapse; width:100%; min-width:520px; font-size:15.5px; line-height:1.65}
+th,td{text-align:left; vertical-align:top; padding:10px 14px; border-bottom:1px solid var(--rule)}
+th{font-family:var(--f-display); font-weight:600; background:var(--panel); font-size:14.5px}
+tr:last-child td{border-bottom:0}
+td.num,th.num{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap}
+tr.total td{font-weight:600; background:var(--panel)}
+
+.note{background:var(--panel); border-left:3px solid var(--accent); padding:16px 20px; border-radius:0 6px 6px 0; max-width:none}
+.note p{max-width:none}
+.warn{border-left-color:var(--warm)}
+.keys{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:14px; margin-top:1.3em}
+.key{border-top:2px solid var(--ink); padding-top:12px; display:flex; flex-direction:column; gap:6px; min-width:0}
+.key .k{font-family:var(--f-display); font-size:30px; font-weight:600; line-height:1.1; font-variant-numeric:tabular-nums}
+.key .d{font-size:14.5px; line-height:1.6; color:var(--muted)}
+
+.toc ol{list-style:none; padding:0; gap:0; max-width:none}
+.toc li{display:grid; grid-template-columns:72px 1fr; gap:12px; padding:12px 0; border-top:1px solid var(--rule)}
+.toc li:last-child{border-bottom:1px solid var(--rule)}
+.toc .n{font-family:var(--f-display); color:var(--accent); font-weight:600; font-variant-numeric:tabular-nums}
+.toc a{color:var(--ink); text-decoration:none; font-family:var(--f-display); font-weight:500}
+.toc a:hover,.toc a:focus-visible{color:var(--accent); text-decoration:underline}
+.toc .s{display:block; font-family:var(--f-body); font-weight:400; font-size:14.5px; color:var(--muted); line-height:1.6}
+a:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+blockquote{margin:1.4em 0 0; padding:22px 26px; border-radius:6px; background:var(--panel); font-family:var(--f-display); font-size:20px; line-height:1.7; font-weight:500; max-width:none}
+dl{margin:0; display:grid; grid-template-columns:minmax(120px,190px) 1fr; gap:10px 20px}
+dt{font-family:var(--f-display); font-weight:600}
+dd{margin:0; color:var(--ink)}
+.colophon{font-family:var(--f-display); font-size:14px; color:var(--muted); text-align:center}
+
+@media (max-width:560px){
+  body{font-size:16px}
+  dl{grid-template-columns:1fr; gap:2px 0} dd{margin-bottom:10px}
+  .toc li{grid-template-columns:56px 1fr}
+}
+@media (prefers-reduced-motion: no-preference){ .cover{transition:transform .5s ease} .cover:hover{transform:translateY(-3px)} }
+</style><style>
+@page{size:A4;margin:18mm 17mm 20mm}
+@page cover{margin:0}
+@media print{
+ body{background:#fff !important;padding:0 !important;font-size:12.5pt}
+ .wrap{max-width:none;gap:0;display:block}
+ .cover-stage{page:cover;display:block;height:297mm;break-after:page}
+ .cover{max-width:none;width:210mm;height:297mm;aspect-ratio:auto;border-radius:0;box-shadow:none;padding:22mm 20mm}
+ .cover svg.art{width:80%}
+ .cv-org{font-size:17pt}.cv-fac{font-size:13pt}.cover .cv-title{font-size:54pt}.cv-sub{font-size:16pt}.cv-kicker{font-size:11pt}.cv-bot{font-size:11.5pt}
+ .page{border:0;border-radius:0;padding:0;background:#fff;break-before:page}
+ .tbl{overflow:visible;border:1px solid #DCE0EA}
+ table{min-width:0;font-size:10.5pt}
+ tr,.key,blockquote,.note{break-inside:avoid}
+ h2,h3,h4{break-after:avoid}
+ .toc a{text-decoration:none}
+ .colophon{margin-top:12mm}
+ *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+
+</head><body><div class="wrap">
+
+<!-- ================= COVER ================= -->
+<section class="cover-stage" aria-label="หน้าปก">
+  <div class="cover">
+    <svg class="art" viewBox="0 0 400 400" aria-hidden="true">
+      <defs>
+        <pattern id="dots" width="16" height="16" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.3" fill="#8CB8FF" fill-opacity=".28"/></pattern>
+        <radialGradient id="glow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#F4B23E" stop-opacity=".55"/><stop offset="1" stop-color="#F4B23E" stop-opacity="0"/></radialGradient>
+      </defs>
+      <rect x="0" y="120" width="260" height="280" fill="url(#dots)"/>
+      <circle cx="318" cy="92" r="92" fill="url(#glow)"/>
+      <polyline points="40,352 110,300 170,238 238,170 318,92" fill="none" stroke="#8CB8FF" stroke-opacity=".7" stroke-width="1.5"/>
+      <circle cx="40" cy="352" r="5" fill="#8CB8FF"/>
+      <circle cx="110" cy="300" r="10" fill="none" stroke="#8CB8FF" stroke-width="1.5"/>
+      <circle cx="170" cy="238" r="17" fill="none" stroke="#8CB8FF" stroke-width="1.5"/>
+      <circle cx="238" cy="170" r="27" fill="#8CB8FF" fill-opacity=".18" stroke="#8CB8FF" stroke-width="1.5"/>
+      <circle cx="318" cy="92" r="40" fill="#F4B23E"/>
+      <circle cx="318" cy="92" r="58" fill="none" stroke="#F4B23E" stroke-opacity=".45" stroke-width="1"/>
+      <circle cx="318" cy="92" r="76" fill="none" stroke="#F4B23E" stroke-opacity=".2" stroke-width="1"/>
+    </svg>
+    <div class="cv-top">
+      <div class="cv-org">ศูนย์สร้างสรรค์ผู้ประกอบการและนวัตกรรม</div>
+      <div class="cv-fac">คณะการสร้างเจ้าของธุรกิจ · มหาวิทยาลัยศรีปทุม</div>
+      <div class="cv-rule"></div>
+    </div>
+    <div class="cv-mid">
+      <div class="cv-kicker">ข้อเสนอเชิงนโยบาย</div>
+      <h1 class="cv-title">SPU Venture<br>&amp; University<br><span>Holding</span></h1>
+      <p class="cv-sub">แนวทางพัฒนาระบบสร้างธุรกิจนวัตกรรม และกลไกการร่วมลงทุนของมหาวิทยาลัยศรีปทุม</p>
+    </div>
+    <div class="cv-bot">
+      <span><b>ฉบับเสนอผู้บริหาร</b><br>พ.ศ. 2569</span>
+      <span>10 บท · ภาคผนวก</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FRONT MATTER ================= -->
+<section class="page" aria-labelledby="preface">
+  <div class="eyebrow">คำนำ</div>
+  <h2 id="preface">คำนำ</h2>
+  <p>หนังสือเล่มนี้จัดทำขึ้นเพื่อเสนอต่อผู้บริหารมหาวิทยาลัยศรีปทุม ว่าด้วยแนวทางพัฒนาระบบสร้างธุรกิจนวัตกรรม และการศึกษาความเป็นไปได้ในการจัดตั้ง University Holding Company ของมหาวิทยาลัย</p>
+  <p>ศูนย์สร้างสรรค์ผู้ประกอบการและนวัตกรรม คณะการสร้างเจ้าของธุรกิจ เห็นว่ามหาวิทยาลัยมีต้นทุนที่สำคัญอยู่แล้ว ได้แก่ นักศึกษาที่มีความคิดสร้างสรรค์ อาจารย์ที่มีความเชี่ยวชาญ ศิษย์เก่าที่ประกอบธุรกิจ และเครือข่ายภาคเอกชน สิ่งที่ยังขาดคือระบบที่เชื่อมต้นทุนเหล่านี้ไปสู่ธุรกิจที่ใช้ได้จริง และกลไกที่ทำให้มหาวิทยาลัยได้รับผลตอบแทนอย่างเหมาะสมและโปร่งใส</p>
+  <p>เนื้อหาแบ่งเป็น 10 บท เริ่มจากความรู้พื้นฐานและบริบท ไปสู่ข้อได้เปรียบของมหาวิทยาลัย รูปแบบการดำเนินงาน การส่งเสริมนักศึกษา แนวทางสร้างรายได้อย่างยั่งยืน การกำกับดูแล และแผนดำเนินงาน ผู้บริหารที่มีเวลาจำกัดสามารถอ่านบทที่ 1 และบทที่ 10 ก่อนได้</p>
+  <p>ตัวเลขงบประมาณ ตัวชี้วัด และโครงสร้างในหนังสือเล่มนี้เป็นข้อเสนอเบื้องต้น ซึ่งจะปรับปรุงหลังการสำรวจข้อมูลภายในมหาวิทยาลัยในระยะการศึกษา 90 วัน</p>
+  <p class="muted" style="text-align:right">ศูนย์สร้างสรรค์ผู้ประกอบการและนวัตกรรม<br>คณะการสร้างเจ้าของธุรกิจ มหาวิทยาลัยศรีปทุม</p>
+</section>
+
+<nav class="page toc" aria-labelledby="toc">
+  <div class="eyebrow">สารบัญ</div>
+  <h2 id="toc">สารบัญ</h2>
+  <ol>
+    <li><span class="n">บทที่ 1</span><a href="#ch1">บทสรุปสำหรับผู้บริหาร<span class="s">ข้อเสนอโดยสรุป เหตุผล และประเด็นที่ขอความเห็นชอบ</span></a></li>
+    <li><span class="n">บทที่ 2</span><a href="#ch2">ความรู้พื้นฐานเกี่ยวกับ University Holding Company<span class="s">ความหมาย เหตุผลที่แยกเป็นนิติบุคคล กลไก 4 ขั้นตอน และรูปแบบผลตอบแทน</span></a></li>
+    <li><span class="n">บทที่ 3</span><a href="#ch3">สถานการณ์ในประเทศไทยและบทเรียน<span class="s">พัฒนาการของ UHC ในไทย UHC Consortium และบทเรียนจาก มช. และ สจล.</span></a></li>
+    <li><span class="n">บทที่ 4</span><a href="#ch4">ข้อได้เปรียบและตำแหน่งของมหาวิทยาลัยศรีปทุม<span class="s">ข้อได้เปรียบ 6 ประการ ข้อจำกัด และตำแหน่ง Venture Builder Holding</span></a></li>
+    <li><span class="n">บทที่ 5</span><a href="#ch5">รูปแบบการดำเนินงานและกระบวนการสร้างธุรกิจ<span class="s">3 ส่วนงาน ทางเลือกโครงสร้าง แหล่งโครงการ และกระบวนการ 7 ขั้น</span></a></li>
+    <li><span class="n">บทที่ 6</span><a href="#ch6">การส่งเสริมและผลักดันนักศึกษา<span class="s">เส้นทางผู้ประกอบการชั้นปีที่ 1–4 กลไกสนับสนุน และหลักสิทธิที่เป็นธรรม</span></a></li>
+    <li><span class="n">บทที่ 7</span><a href="#ch7">แนวทางการสร้างรายได้อย่างยั่งยืน<span class="s">รายได้ 3 ระยะ แหล่งรายได้ และหลักการด้านการเงิน</span></a></li>
+    <li><span class="n">บทที่ 8</span><a href="#ch8">กฎหมาย การกำกับดูแล และการบริหารความเสี่ยง<span class="s">ฐานกฎหมาย ประเด็นที่ต้องตรวจสอบ โครงสร้างธรรมาภิบาล เงื่อนไขก่อนลงทุน และความเสี่ยง</span></a></li>
+    <li><span class="n">บทที่ 9</span><a href="#ch9">จุดเริ่มต้นและแผนดำเนินงาน<span class="s">ก้าวแรก 90 วัน แผน 12 เดือน งบประมาณ และตัวชี้วัด</span></a></li>
+    <li><span class="n">บทที่ 10</span><a href="#ch10">ข้อเสนอเพื่อโปรดพิจารณา<span class="s">ประเด็นขอความเห็นชอบ 5 ข้อ และสารหลัก</span></a></li>
+    <li><span class="n">ภาคผนวก</span><a href="#appx">อภิธานศัพท์และหมายเหตุ<span class="s">คำศัพท์สำคัญ และข้อควรตรวจสอบก่อนเผยแพร่</span></a></li>
+  </ol>
+</nav>
+
+<!-- ================= CHAPTER 1 ================= -->
+<section class="page" id="ch1" aria-labelledby="h-ch1">
+  <header class="chap-head"><div class="chap-no">01</div><div class="eyebrow">บทที่ 1</div><h2 id="h-ch1">บทสรุปสำหรับผู้บริหาร</h2></header>
+  <p class="lead">ขอเสนอให้มหาวิทยาลัยศรีปทุมอนุมัติการพัฒนาระบบสร้างธุรกิจนวัตกรรม และศึกษาการจัดตั้ง University Holding Company โดยให้ศูนย์สร้างสรรค์ผู้ประกอบการและนวัตกรรม (CCEI) เป็นหน่วยงานหลัก และกำหนดจุดตัดสินใจก่อนลงทุนจริง</p>
+
+  <h3>ความเป็นมา</h3>
+  <p>มหาวิทยาลัยทั่วโลกและในประเทศไทยจำนวนมากได้พัฒนากลไกนำความรู้ ผลงานวิจัย และศักยภาพผู้ประกอบการของบุคลากรและนักศึกษา ไปสู่การใช้ประโยชน์เชิงพาณิชย์ หนึ่งในกลไกสำคัญคือ University Holding Company ซึ่งทำหน้าที่ร่วมลงทุนและถือหุ้นในธุรกิจที่เกิดจากมหาวิทยาลัย</p>
+  <p>มหาวิทยาลัยศรีปทุมมีจุดแข็งด้านธุรกิจ ดิจิทัล นิเทศศาสตร์ และการสร้างผู้ประกอบการ ซึ่งเหมาะกับการพัฒนาธุรกิจที่เข้าสู่ตลาดได้เร็ว อย่างไรก็ตาม การจัดตั้งบริษัทและการนำเงินของมหาวิทยาลัยไปลงทุนต้องผ่านการตรวจสอบข้อกฎหมายสำหรับสถาบันอุดมศึกษาเอกชน และต้องมีโครงการที่พร้อมรับการลงทุนจริง จึงเสนอให้ดำเนินการเป็นขั้นตอน</p>
+
+  <h3>ผู้บริหารควรพิจารณา 3 ประเด็นพร้อมกัน</h3>
+  <ol>
+    <li><strong>มหาวิทยาลัยจะได้ประโยชน์อะไร</strong> ทั้งด้านการเรียนรู้ ชื่อเสียง ความร่วมมือกับเอกชน และผลตอบแทนระยะยาว</li>
+    <li><strong>ธุรกิจที่จะลงทุนมาจากแหล่งใด</strong> และจะคัดกรองให้ได้โครงการที่มีคุณภาพอย่างไร</li>
+    <li><strong>จะกำกับเงินและความเสี่ยงอย่างไร</strong> เพื่อไม่ให้ภาระของมหาวิทยาลัยขยายโดยไม่ผ่านการพิจารณา</li>
+  </ol>
+
+  <h3>สาระโดยสรุป</h3>
+  <div class="tbl"><table>
+    <tr><th style="width:26%">ประเด็น</th><th>สาระโดยสรุป</th><th style="width:14%">รายละเอียด</th></tr>
+    <tr><td><b>ข้อเสนอ</b></td><td>ให้ CCEI เตรียมโครงการ และศึกษาความพร้อม 90 วัน ก่อนตัดสินใจรูปแบบนิติบุคคลและวงเงินลงทุน</td><td>บทที่ 5, 9</td></tr>
+    <tr><td><b>ข้อได้เปรียบ</b></td><td>ความคล่องตัวแบบสถาบันเอกชน อัตลักษณ์ด้านการสร้างผู้ประกอบการ และสาขาที่เข้าสู่ตลาดได้เร็ว</td><td>บทที่ 4</td></tr>
+    <tr><td><b>การส่งเสริมนักศึกษา</b></td><td>เส้นทางผู้ประกอบการตลอดหลักสูตร กลไกสนับสนุน 6 ด้าน และหลักสิทธิที่เป็นธรรม</td><td>บทที่ 6</td></tr>
+    <tr><td><b>รายได้</b></td><td>เริ่มจากรายได้บริการ ต่อยอดสู่ค่าสิทธิ และผลตอบแทนจากการลงทุนในระยะยาว</td><td>บทที่ 7</td></tr>
+    <tr><td><b>การกำกับ</b></td><td>จุดตัดสินใจสิ้นเดือนที่ 3 เงื่อนไขก่อนลงทุน 6 ข้อ และวงเงินระยะแรกไม่เกิน 300,000 บาท</td><td>บทที่ 8, 9</td></tr>
+  </table></div>
+
+  <div class="note"><p><strong>หลักการสำคัญ</strong> ปีแรกมุ่งวัดความสามารถในการสร้างและคัดเลือกธุรกิจ มากกว่าผลตอบแทนทางการเงิน เนื่องจากกิจการที่ลงทุนต้องใช้เวลาพัฒนา และอาจไม่ประสบความสำเร็จทุกโครงการ</p></div>
+</section>
+
+<!-- ================= CHAPTER 2 ================= -->
+<section class="page" id="ch2" aria-labelledby="h-ch2">
+  <header class="chap-head"><div class="chap-no">02</div><div class="eyebrow">บทที่ 2</div><h2 id="h-ch2">ความรู้พื้นฐานเกี่ยวกับ University Holding Company</h2></header>
+  <p class="lead">University Holding Company (UHC) คือนิติบุคคลที่มหาวิทยาลัยจัดตั้งขึ้นเพื่อทำหน้าที่นักลงทุนของมหาวิทยาลัย โดยนำผลงานวิจัย ความรู้ และแนวคิดธุรกิจไปพัฒนาเป็นบริษัท และถือหุ้นในบริษัทเหล่านั้น</p>
+
+  <h3>2.1 ความหมายและบทบาท</h3>
+  <p>หากเปรียบมหาวิทยาลัยเป็นผู้ผลิตความรู้และบุคลากร UHC คือหน่วยงานที่นำผลผลิตนั้นเข้าสู่ตลาดอย่างมืออาชีพ มหาวิทยาลัยมีความเชี่ยวชาญด้านการเรียนการสอนและการวิจัย แต่โครงสร้างและระเบียบของมหาวิทยาลัยไม่ได้ออกแบบมาเพื่อบริหารธุรกิจที่มีความเสี่ยงและต้องตัดสินใจรวดเร็ว UHC จึงเข้ามาทำหน้าที่ส่วนนี้</p>
+  <p>UHC แตกต่างจากหน่วยบ่มเพาะธุรกิจทั่วไป ตรงที่ UHC เป็นผู้ถือหุ้นและรับผลตอบแทนทางธุรกิจ ขณะที่หน่วยบ่มเพาะเน้นการพัฒนาทีมและโครงการ ในข้อเสนอนี้ทั้งสองบทบาทจึงทำงานต่อเนื่องกัน โดย CCEI พัฒนาโครงการ และ UHC พิจารณาการลงทุน</p>
+
+  <h3>2.2 เหตุผลที่แยกเป็นนิติบุคคล</h3>
+  <ol>
+    <li><strong>ความคล่องตัวในการตัดสินใจ</strong> ธุรกิจนวัตกรรมเปลี่ยนแปลงเร็วและมีความเสี่ยงสูง นิติบุคคลที่แยกออกมาสามารถตัดสินใจลงทุนได้แบบธุรกิจ</li>
+    <li><strong>การแยกความเสี่ยง</strong> ภาระทางธุรกิจของบริษัทที่ลงทุนไม่ผูกพันมหาวิทยาลัยโดยตรง ภายใต้โครงสร้างและข้อตกลงที่ถูกต้อง</li>
+    <li><strong>การเปิดรับนักลงทุนภายนอก</strong> นักลงทุนและภาคเอกชนเข้าถึงผลงานของมหาวิทยาลัยได้ผ่านช่องทางที่ชัดเจน และความเสี่ยงลดลงเพราะมี UHC ร่วมลงทุน</li>
+  </ol>
+
+  <h3>2.3 กลไกการทำงาน 4 ขั้นตอน</h3>
+  <h4>ขั้นที่ 1 ผลงานและแนวคิด</h4>
+  <p>อาจารย์ นักวิจัย นักศึกษา หรือศิษย์เก่า มีผลงานหรือแนวคิดที่มีศักยภาพทางธุรกิจ เช่น ผลงานวิจัย โครงงานในรายวิชา หรือแนวคิดที่ได้จากการแข่งขัน</p>
+  <h4>ขั้นที่ 2 คัดเลือกและร่วมลงทุน</h4>
+  <p>UHC ประเมินศักยภาพ แล้วร่วมจัดตั้งบริษัทหรือเข้าถือหุ้น มหาวิทยาลัยอาจนำทรัพย์สินทางปัญญามาแลกหุ้นแทนเงินสด หรือในช่วงแรกอาจรับหุ้นเพื่อแลกกับบริการบ่มเพาะ</p>
+  <h4>ขั้นที่ 3 บ่มเพาะและขยายผล</h4>
+  <p>UHC และหน่วยสนับสนุนช่วยพัฒนาผลิตภัณฑ์ หาทุนเพิ่ม เชื่อมโยงลูกค้าและตลาด และช่วยวางระบบบริหารของบริษัท</p>
+  <h4>ขั้นที่ 4 ผลตอบแทนหมุนเวียน</h4>
+  <p>เมื่อบริษัทเติบโต มหาวิทยาลัยได้รับผลตอบแทน แล้วนำส่วนหนึ่งกลับมาหมุนเวียนสนับสนุนโครงการรุ่นถัดไป</p>
+
+  <h3>2.4 รูปแบบผลตอบแทนที่มหาวิทยาลัยได้รับ</h3>
+  <div class="tbl"><table>
+    <tr><th style="width:28%">รูปแบบ</th><th>ลักษณะ</th><th style="width:22%">ระยะเวลาโดยประมาณ</th></tr>
+    <tr><td><b>ค่าอนุญาตให้ใช้สิทธิ</b></td><td>บริษัทจ่ายค่าตอบแทนเพื่อใช้ผลงานหรือทรัพย์สินทางปัญญา อาจเป็นเงินก้อนหรือตามยอดขาย</td><td>ระยะกลาง</td></tr>
+    <tr><td><b>เงินปันผล</b></td><td>ส่วนแบ่งกำไรตามสัดส่วนหุ้น เมื่อบริษัทมีกำไรและจ่ายปันผล</td><td>ระยะยาว</td></tr>
+    <tr><td><b>การขายหุ้น (Exit)</b></td><td>ขายหุ้นให้นักลงทุนรายอื่น หรือเมื่อบริษัทเข้าตลาดหลักทรัพย์</td><td>ระยะยาว</td></tr>
+  </table></div>
+  <div class="note warn"><p><strong>ข้อควรเข้าใจ</strong> UHC เป็นการลงทุนระยะยาว 5–10 ปี ไม่ใช่แหล่งรายได้ทันที และธุรกิจจำนวนหนึ่งอาจไม่ประสบความสำเร็จ แนวทางในบทที่ 7 จึงเสนอให้มีรายได้บริการรองรับค่าดำเนินงานตั้งแต่ปีแรก</p></div>
+</section>
+
+<!-- ================= CHAPTER 3 ================= -->
+<section class="page" id="ch3" aria-labelledby="h-ch3">
+  <header class="chap-head"><div class="chap-no">03</div><div class="eyebrow">บทที่ 3</div><h2 id="h-ch3">สถานการณ์ในประเทศไทยและบทเรียนจากมหาวิทยาลัยที่ดำเนินการแล้ว</h2></header>
+  <p class="lead">ประเทศไทยเริ่มกลไก UHC ตั้งแต่ปี 2561 และมีการขยายตัวอย่างต่อเนื่อง แต่สมาชิกส่วนใหญ่เป็นมหาวิทยาลัยรัฐหรือในกำกับที่เน้นเทคโนโลยีเชิงลึก</p>
+
+  <h3>3.1 ภาพรวมในประเทศไทย</h3>
+  <div class="keys">
+    <div class="key"><span class="k">2561</span><span class="d">ปีที่เริ่มกลไก UHC ในประเทศไทย</span></div>
+    <div class="key"><span class="k">12 แห่ง</span><span class="d">จำนวน UHC ณ ต้นปี 2569</span></div>
+    <div class="key"><span class="k">500+ ล้านบาท</span><span class="d">ทุนจดทะเบียนรวม</span></div>
+    <div class="key"><span class="k">110+ บริษัท</span><span class="d">บริษัทนวัตกรรมที่ร่วมลงทุน</span></div>
+  </div>
+  <p style="margin-top:1.4em">ล่าสุดมีการจัดตั้ง <strong>UHC Consortium</strong> ซึ่งรวม 15 สถาบัน ตั้งเป้าหมายภายในปี 2575 ไว้ที่การสร้าง Deep Tech Spin-off 100 บริษัท ผลักดันเข้าตลาดหลักทรัพย์ 5 บริษัท และสร้างยูนิคอร์น 1 บริษัท โดยมีแหล่งทุนภาครัฐ เช่น NIA และ TED Fund ร่วมสนับสนุน</p>
+  <p>สำนักงานสภานโยบายการอุดมศึกษา วิทยาศาสตร์ วิจัยและนวัตกรรมแห่งชาติ (สอวช.) มีนโยบายและแนวปฏิบัติให้มหาวิทยาลัยใช้เป็นกรอบในการจัดตั้ง UHC โดยให้ความสำคัญกับความพร้อมด้านผลงาน บุคลากร ระบบถ่ายทอดเทคโนโลยี งบประมาณ การศึกษาความเป็นไปได้ และระบบกำกับดูแล นอกจากนี้ยังมีกิจกรรม UHC Learn &amp; Share และ UHC Network ที่เปิดให้สถาบันต่าง ๆ แลกเปลี่ยนประสบการณ์</p>
+
+  <h3>3.2 บทเรียนจากมหาวิทยาลัยเชียงใหม่</h3>
+  <p>มหาวิทยาลัยเชียงใหม่รายงานเมื่อวันที่ 26 พฤษภาคม 2568 ว่า Angkaew Holding จัดตั้งในปี 2561 ด้วยทุนจดทะเบียนเริ่มต้น 1 ล้านบาท จุดเด่นคือระบบสนับสนุนรอบบริษัทที่ครบถ้วน ได้แก่</p>
+  <ul>
+    <li>การบ่มเพาะธุรกิจจากผลงานวิจัย</li>
+    <li>การจัดการทรัพย์สินทางปัญญา</li>
+    <li>การทดสอบตลาด</li>
+    <li>การสร้างผู้บริหารธุรกิจจากผลงานวิจัย</li>
+  </ul>
+  <p>บทเรียนสำคัญคือความสำเร็จไม่ได้มาจากขนาดทุนจดทะเบียน แต่มาจากระบบที่ช่วยให้ผลงานพัฒนาเป็นธุรกิจได้จริง</p>
+
+  <h3>3.3 บทเรียนจากสถาบันเทคโนโลยีพระจอมเกล้าเจ้าคุณทหารลาดกระบัง</h3>
+  <p>ประสบการณ์ของ สจล. ชี้ความท้าทาย 3 ประการที่มหาวิทยาลัยซึ่งเริ่มดำเนินการควรเตรียมรับมือ</p>
+  <ol>
+    <li><strong>ความเข้าใจของผู้บริหาร</strong> ผู้บริหารต้องเข้าใจบทบาทที่แท้จริงของ UHC ว่าเป็นการลงทุนระยะยาวที่มีความเสี่ยง</li>
+    <li><strong>บุคลากรที่รู้ทั้งสองด้าน</strong> ต้องมีบุคลากรที่เข้าใจทั้งงานวิชาการและการทำธุรกิจ</li>
+    <li><strong>วัฒนธรรมและระเบียบ</strong> ต้องปรับวัฒนธรรมองค์กรและกฎระเบียบให้มหาวิทยาลัยกับ UHC ทำงานเชื่อมโยงกันได้</li>
+  </ol>
+
+  <h3>3.4 ตัวอย่างอื่นที่อ้างอิงได้</h3>
+  <p>CU Enterprise ของจุฬาลงกรณ์มหาวิทยาลัย และ Tsinghua Holdings ของมหาวิทยาลัยชิงหัว ประเทศจีน ซึ่งมหาวิทยาลัยกำกับผ่านการแต่งตั้งกรรมการที่ดูแลแผนธุรกิจและการลงทุนสำคัญ</p>
+
+  <h3>3.5 ข้อสรุปสำหรับมหาวิทยาลัยศรีปทุม</h3>
+  <ul>
+    <li>สิ่งที่ควรนำมาใช้คือ <strong>ระบบสนับสนุนรอบบริษัท</strong> ไม่ใช่ตัวเลขทุนจดทะเบียนของสถาบันอื่น</li>
+    <li>มาตรการหลายอย่างออกแบบมาแก้ข้อจำกัดของหน่วยงานรัฐ SPU จึงต้องออกแบบโมเดลของตนเอง</li>
+    <li>ควรเริ่มจากการสร้างความเข้าใจของผู้บริหาร และกำหนดบุคลากรรับผิดชอบตั้งแต่ต้น</li>
+  </ul>
+</section>
+
+<!-- ================= CHAPTER 4 ================= -->
+<section class="page" id="ch4" aria-labelledby="h-ch4">
+  <header class="chap-head"><div class="chap-no">04</div><div class="eyebrow">บทที่ 4</div><h2 id="h-ch4">ข้อได้เปรียบและตำแหน่งของมหาวิทยาลัยศรีปทุม</h2></header>
+  <p class="lead">SPU ไม่ควรลอกแบบ UHC ของมหาวิทยาลัยรัฐ แต่ควรใช้ความคล่องตัวแบบเอกชนและจุดแข็งด้านธุรกิจ วางตำแหน่งเป็น Venture Builder Holding</p>
+
+  <h3>4.1 ข้อได้เปรียบ 6 ประการ</h3>
+  <h4>1. ความคล่องตัวในการตัดสินใจ</h4>
+  <p>มหาวิทยาลัยรัฐต้องจัดตั้ง UHC เพื่อหลีกเลี่ยงข้อจำกัดของระบบราชการและการจัดซื้อจัดจ้างภาครัฐ SPU ไม่อยู่ภายใต้ข้อจำกัดเหล่านี้ จึงดำเนินการ ทดลอง และปรับแผนได้รวดเร็วกว่า</p>
+  <h4>2. อัตลักษณ์ด้านการสร้างผู้ประกอบการ</h4>
+  <p>มหาวิทยาลัยมีคณะการสร้างเจ้าของธุรกิจ และหลักสูตรที่มุ่งสร้างเจ้าของธุรกิจโดยตรง ประกอบกับวัฒนธรรมองค์กรแบบธุรกิจ ทำให้แนวคิดการร่วมสร้างธุรกิจสอดคล้องกับพันธกิจเดิม</p>
+  <h4>3. สาขาที่เข้าสู่ตลาดได้เร็ว</h4>
+  <p>ธุรกิจด้านบริหารธุรกิจ ดิจิทัล และนิเทศศาสตร์ ใช้เงินลงทุนต่ำ พัฒนาต้นแบบได้เร็ว และไม่ต้องพึ่งห้องปฏิบัติการขนาดใหญ่ จึงเห็นผลเร็วกว่าเทคโนโลยีเชิงลึก</p>
+  <h4>4. ฐานการบ่มเพาะที่มีอยู่แล้ว</h4>
+  <p>CCEI สามารถค้นหาและพัฒนาทีมได้ทันที มหาวิทยาลัยจึงไม่ต้องเริ่มจากศูนย์ และสามารถสร้างหลักฐานผลงานก่อนตัดสินใจจัดตั้งบริษัท</p>
+  <h4>5. เครือข่ายศิษย์เก่าและภาคเอกชน</h4>
+  <p>ศิษย์เก่าที่ประกอบธุรกิจและบริษัทพันธมิตร เป็นแหล่งพี่เลี้ยง ลูกค้ารายแรก โจทย์ธุรกิจจริง และผู้ร่วมลงทุน</p>
+  <h4>6. โอกาสวางตำแหน่งที่แตกต่าง</h4>
+  <p>UHC ส่วนใหญ่ในไทยเป็นของมหาวิทยาลัยรัฐที่เน้น Deep Tech SPU จึงมีโอกาสวางตำแหน่งด้านธุรกิจบริการและดิจิทัลประยุกต์ ซึ่งยังมีผู้เล่นไม่มาก และยังเป็นจุดขายในการรับนักศึกษาว่า เรียนแล้วได้สร้างธุรกิจจริง</p>
+
+  <h3>4.2 ข้อจำกัดที่ต้องบริหารจัดการ</h3>
+  <div class="tbl"><table>
+    <tr><th style="width:34%">ข้อจำกัด</th><th>ผลกระทบ</th><th style="width:34%">แนวทางรับมือ</th></tr>
+    <tr><td><b>กฎหมายเฉพาะของสถาบันเอกชน</b></td><td>การใช้ทรัพย์สินและเงินทุนอยู่ภายใต้ พ.ร.บ.สถาบันอุดมศึกษาเอกชน เช่น การจัดสรรทุนเป็น 6 กองทุน</td><td>จัดทำความเห็นกฎหมายก่อนผูกพันเงินทุกครั้ง</td></tr>
+    <tr><td><b>งานวิจัยเชิงลึกมีจำกัด</b></td><td>หากเน้น Deep Tech ทันที อาจมีโครงการไม่เพียงพอต่อการลงทุน</td><td>เน้นธุรกิจที่ตรงกับจุดแข็ง และพิจารณา Deep Tech เป็นรายกรณี</td></tr>
+    <tr><td><b>ภาระงานบุคลากร</b></td><td>หากไม่มีผู้รับผิดชอบเฉพาะ งานจะตกอยู่กับอาจารย์ที่มีภาระสอน</td><td>กำหนดผู้รับผิดชอบงานประจำ และใช้ที่ปรึกษาภายนอกในช่วงแรก</td></tr>
+  </table></div>
+
+  <h3>4.3 ตำแหน่งที่เสนอ: Venture Builder Holding</h3>
+  <p>Venture Builder Holding คือรูปแบบที่มหาวิทยาลัยมีส่วนร่วมสร้างธุรกิจตั้งแต่ต้น ทั้งการคัดเลือกทีม การพัฒนาต้นแบบ และการหาตลาด แทนการรอลงทุนในผลงานวิจัยที่พร้อมแล้ว รูปแบบนี้เหมาะกับจุดแข็งของ SPU ใน 3 กลุ่ม</p>
+  <div class="tbl"><table>
+    <tr><th style="width:32%">กลุ่มธุรกิจ</th><th>ตัวอย่างลักษณะธุรกิจ</th></tr>
+    <tr><td><b>สตาร์ทอัพของนักศึกษาและศิษย์เก่า</b></td><td>ธุรกิจที่ต่อยอดจากโครงงาน รายวิชา การแข่งขัน และเครือข่ายผู้ประกอบการ</td></tr>
+    <tr><td><b>ธุรกิจบริการความรู้</b></td><td>การฝึกอบรม ที่ปรึกษาธุรกิจ และหลักสูตรออนไลน์</td></tr>
+    <tr><td><b>AI และดิจิทัลประยุกต์</b></td><td>โซลูชันสำหรับธุรกิจ เทคโนโลยีการศึกษา และอุตสาหกรรมสร้างสรรค์</td></tr>
+  </table></div>
+  <p style="margin-top:1.2em">กลุ่มธุรกิจตั้งต้นจะยืนยันอีกครั้งจากผลสำรวจความเชี่ยวชาญและโครงการจริงของมหาวิทยาลัยในการศึกษา 90 วัน</p>
+</section>
+
+<!-- ================= CHAPTER 5 ================= -->
+<section class="page" id="ch5" aria-labelledby="h-ch5">
+  <header class="chap-head"><div class="chap-no">05</div><div class="eyebrow">บทที่ 5</div><h2 id="h-ch5">รูปแบบการดำเนินงานและกระบวนการสร้างธุรกิจ</h2></header>
+  <p class="lead">ระบบที่เสนอประกอบด้วย 3 ส่วนงานที่ส่งต่องานกัน CCEI สร้างโครงการคุณภาพ ส่วนการอนุมัติลงทุนผ่านกลไกที่ตรวจสอบได้อีกชั้นหนึ่ง</p>
+
+  <h3>5.1 ส่วนงานและบทบาท</h3>
+  <div class="tbl"><table>
+    <tr><th style="width:24%">ส่วนงาน</th><th>หน้าที่หลัก</th><th style="width:32%">ผลลัพธ์ที่ส่งต่อ</th></tr>
+    <tr><td><b>CCEI</b><br><span class="muted">พัฒนาคนและโครงการ</span></td><td>ค้นหาทีม บ่มเพาะ พัฒนาต้นแบบ ทดลองกับผู้ใช้ และเชื่อมพันธมิตร</td><td>โครงการที่มีหลักฐานความต้องการของตลาด</td></tr>
+    <tr><td><b>ทีม IP และพัฒนาธุรกิจ</b></td><td>ตรวจสิทธิในผลงาน วิเคราะห์ธุรกิจ จัดทีมผู้ก่อตั้ง และเตรียมสัญญา</td><td>โครงการพร้อมให้ใช้สิทธิ ร่วมพัฒนา หรือรับการลงทุน</td></tr>
+    <tr><td><b>University Holding Company</b></td><td>พิจารณาลงทุน ถือหุ้น ร่วมทุน และติดตามบริษัทที่ลงทุน</td><td>ผลตอบแทนกลับสู่มหาวิทยาลัยตามสิทธิที่ตกลง</td></tr>
+  </table></div>
+
+  <h3>5.2 ทางเลือกโครงสร้าง</h3>
+  <h4>ทางเลือก A พัฒนาผ่านหน่วยงานเดิมก่อน</h4>
+  <p>เหมาะเมื่อยังต้องสำรวจผลงาน ทีม และตลาด ดำเนินการบ่มเพาะและโครงการนำร่องได้ตามอำนาจที่มีอยู่ แต่การลงทุนในหุ้นต้องมีช่องทางที่ถูกต้องตามกฎหมาย</p>
+  <h4>ทางเลือก B ใช้หรือปรับบทบาทนิติบุคคลเดิม</h4>
+  <p>เหมาะเมื่อพบว่ามีนิติบุคคลที่มีวัตถุประสงค์และโครงสร้างเหมาะสม ต้องตรวจสอบผู้ถือหุ้น หนี้สิน ภาระผูกพัน ภาษี และผลประโยชน์ที่กลับสู่มหาวิทยาลัย</p>
+  <h4>ทางเลือก C จัดตั้ง University Holding Company ใหม่</h4>
+  <p>เหมาะเมื่อมีโครงการพร้อมลงทุน แหล่งเงิน ทีมบริหาร และระบบกำกับครบ มีต้นทุนดำเนินงานต่อเนื่อง และต้องบริหารการลงทุนอย่างเป็นระบบ</p>
+  <div class="note"><p><strong>ข้อเสนอ</strong> เริ่มดำเนินการตามทางเลือก A ทันที พร้อมศึกษาทางเลือก B และ C ในระยะ 90 วัน เพื่อให้ผู้บริหารตัดสินใจจากความคุ้มค่าและข้อกฎหมายจริง</p></div>
+
+  <h3>5.3 แหล่งที่มาของโครงการ</h3>
+  <p>UHC ที่ไม่มีโครงการให้ลงทุนจะดำเนินการต่อไปไม่ได้ CCEI จึงต้องสร้างท่อป้อนโครงการจาก 4 แหล่ง โดยแยกเป้าหมายและสิทธิให้ชัดเจน</p>
+  <div class="tbl"><table>
+    <tr><th style="width:24%">แหล่งโครงการ</th><th>แนวทางพัฒนา</th><th style="width:36%">เงื่อนไขก่อนพิจารณาลงทุน</th></tr>
+    <tr><td><b>นักศึกษา</b></td><td>ต่อยอดโครงงาน รายวิชา และการแข่งขันสู่ธุรกิจ</td><td>ทีมสมัครใจ มีผู้รับผิดชอบธุรกิจ และทดลองกับลูกค้าจริง</td></tr>
+    <tr><td><b>อาจารย์และนักวิจัย</b></td><td>นำความรู้ เทคโนโลยี หรือผลงานไปใช้เชิงพาณิชย์</td><td>สิทธิในผลงานชัดเจน และมีผู้ทำหน้าที่บริหารธุรกิจ</td></tr>
+    <tr><td><b>ศิษย์เก่าและผู้ประกอบการ</b></td><td>ร่วมพัฒนาผลิตภัณฑ์หรือขยายธุรกิจด้วยความเชี่ยวชาญของ SPU</td><td>SPU สร้างคุณค่าที่ระบุได้ และเงื่อนไขร่วมลงทุนเหมาะสม</td></tr>
+    <tr><td><b>บริษัทพันธมิตร</b></td><td>รับโจทย์ พัฒนาต้นแบบ และทดลองในองค์กร</td><td>มีเจ้าของโจทย์ งบทดลอง และข้อตกลงเรื่องสิทธิในผลงาน</td></tr>
+  </table></div>
+  <p style="margin-top:1.2em">ช่องทางสร้างท่อป้อนโครงการที่ใช้ได้ทันที ได้แก่ Demo Day ประจำปี โครงงานจบหรือสหกิจศึกษาในรูปแบบการจัดตั้งธุรกิจ การเปิดรับแนวคิดจากอาจารย์ บุคลากร และศิษย์เก่า และ Reverse Pitching ที่ให้บริษัทเอกชนมาตั้งโจทย์</p>
+
+  <h3>5.4 กระบวนการจากโครงการสู่การลงทุน</h3>
+  <p>ทุกขั้นตอนมีหลักฐานกำกับก่อนผ่านไปขั้นถัดไป โครงการที่ไม่ผ่านจะไม่ได้รับการสนับสนุนต่อ เพื่อใช้ทรัพยากรอย่างคุ้มค่า</p>
+  <div class="tbl"><table>
+    <tr><th style="width:26%">ขั้นตอน</th><th>การดำเนินงาน</th><th style="width:34%">หลักฐานก่อนผ่านขั้น</th></tr>
+    <tr><td><b>1 ค้นหาและคัดเลือก</b></td><td>ตรวจทีม ปัญหา และความเกี่ยวข้องกับ SPU</td><td>ข้อมูลโครงการและผู้รับผิดชอบ</td></tr>
+    <tr><td><b>2 พิสูจน์ปัญหา</b></td><td>สัมภาษณ์และทดสอบกับกลุ่มเป้าหมาย</td><td>หลักฐานว่าปัญหามีอยู่จริงและสำคัญ</td></tr>
+    <tr><td><b>3 พัฒนาต้นแบบ</b></td><td>สร้างสิ่งที่ทดลองใช้งานได้</td><td>ต้นแบบและผลทดสอบ</td></tr>
+    <tr><td><b>4 ทดลองตลาด</b></td><td>ทดลองขาย หรือทดลองใช้กับองค์กร</td><td>ข้อมูลการใช้ ความเต็มใจจ่าย ต้นทุน และผลลัพธ์</td></tr>
+    <tr><td><b>5 ตรวจความพร้อมธุรกิจ</b></td><td>ตรวจ IP ทีม การเงิน สัญญา และความเสี่ยง</td><td>เอกสารตรวจสอบและแผนใช้เงิน</td></tr>
+    <tr><td><b>6 เลือกช่องทางต่อยอด</b></td><td>ให้ใช้สิทธิ ร่วมพัฒนา ตั้งบริษัท หรือร่วมลงทุน</td><td>ข้อเสนอที่เหมาะกับโครงการนั้น</td></tr>
+    <tr><td><b>7 ลงทุนและติดตาม</b></td><td>อนุมัติ ลงนาม จ่ายตามเงื่อนไข และติดตาม</td><td>รายงานเงินสด ลูกค้า รายได้ และความก้าวหน้า</td></tr>
+  </table></div>
+  <div class="note"><p><strong>ไม่จำเป็นต้องจัดตั้งบริษัทสำหรับทุกโครงการ</strong> บางผลงานเหมาะกับการอนุญาตให้บริษัทที่มีตลาดอยู่แล้วใช้สิทธิ ซึ่งต้องเปรียบเทียบกับต้นทุนและความเสี่ยงของการสร้างบริษัทใหม่เสมอ</p></div>
+</section>
+
+<!-- ================= CHAPTER 6 ================= -->
+<section class="page" id="ch6" aria-labelledby="h-ch6">
+  <header class="chap-head"><div class="chap-no">06</div><div class="eyebrow">บทที่ 6</div><h2 id="h-ch6">การส่งเสริมและผลักดันนักศึกษา</h2></header>
+  <p class="lead">นักศึกษาคือแหล่งโครงการหลักของระบบ มหาวิทยาลัยจึงควรสร้างเส้นทางผู้ประกอบการตลอดหลักสูตร พร้อมกลไกสนับสนุนและกติกาสิทธิที่เป็นธรรม</p>
+
+  <h3>6.1 เส้นทางผู้ประกอบการตลอดหลักสูตร</h3>
+  <h4>ชั้นปีที่ 1 จุดประกายแนวคิด</h4>
+  <p>นักศึกษาฝึกค้นหาปัญหาจากชีวิตจริง ใช้การคิดเชิงออกแบบ และทำงานเป็นทีม เป้าหมายคือให้นักศึกษามองเห็นโอกาสทางธุรกิจรอบตัว</p>
+  <h4>ชั้นปีที่ 2 ทดลองกับลูกค้าจริง</h4>
+  <p>โครงงานในรายวิชากำหนดให้ทดสอบความต้องการของตลาดกับกลุ่มเป้าหมายจริง และรับโจทย์จากภาคเอกชน นักศึกษาได้เรียนรู้ว่าแนวคิดใดมีผู้ต้องการจริง</p>
+  <h4>ชั้นปีที่ 3 สร้างธุรกิจ</h4>
+  <p>ทีมที่มีศักยภาพเข้าร่วม Venture Studio เพื่อพัฒนาต้นแบบ ทดลองขาย และนำเสนอใน Demo Day ประจำปี ซึ่งเป็นเวทีคัดเลือกโครงการเข้าสู่การพิจารณาต่อยอด</p>
+  <h4>ชั้นปีที่ 4 ก่อตั้งและขยายผล</h4>
+  <p>นักศึกษาใช้การจัดตั้งธุรกิจแทนสหกิจศึกษาหรือโครงงานจบ และรับการพิจารณาทุนตั้งต้นหรือการร่วมลงทุน</p>
+  <div class="note"><p>ทุกขั้นเป็นไปตามความสมัครใจ และนับเป็นผลการเรียนรู้ได้แม้ธุรกิจจะไม่ประสบความสำเร็จ การเทียบโอนหรือปรับรายวิชาต้องผ่านกระบวนการวิชาการของมหาวิทยาลัย</p></div>
+
+  <h3>6.2 กลไกสนับสนุน 6 ด้าน</h3>
+  <div class="tbl"><table>
+    <tr><th style="width:30%">กลไก</th><th>รายละเอียด</th></tr>
+    <tr><td><b>หน่วยกิตจากธุรกิจจริง</b></td><td>เทียบผลงานการสร้างธุรกิจเป็นผลการเรียนในรายวิชาที่เกี่ยวข้อง</td></tr>
+    <tr><td><b>ทุนตั้งต้นขนาดเล็ก</b></td><td>ทุนทดลองตลาดสำหรับทีมที่ผ่านการคัดเลือก จ่ายเป็นงวดตามผลงานแต่ละขั้น</td></tr>
+    <tr><td><b>พี่เลี้ยงธุรกิจ</b></td><td>ศิษย์เก่าและผู้ประกอบการให้คำปรึกษาด้านธุรกิจ การตลาด และการเงินอย่างต่อเนื่อง</td></tr>
+    <tr><td><b>พื้นที่และบริการร่วม</b></td><td>พื้นที่ทำงาน และคำปรึกษาด้านกฎหมาย บัญชี และทรัพย์สินทางปัญญา</td></tr>
+    <tr><td><b>เวทีลูกค้าและนักลงทุน</b></td><td>Demo Day, Reverse Pitching และการจับคู่กับบริษัทพันธมิตร</td></tr>
+    <tr><td><b>เส้นทางอาชีพ</b></td><td>ฝึกงานและทำงานกับบริษัทที่มหาวิทยาลัยร่วมพัฒนาหรือร่วมลงทุน</td></tr>
+  </table></div>
+
+  <h3>6.3 หลักการสิทธิที่เป็นธรรมต่อนักศึกษา</h3>
+  <p>กติกาที่ชัดเจนและเป็นธรรมทำให้นักศึกษามั่นใจเข้าร่วม หากมหาวิทยาลัยถือหุ้นมากเกินไป นักศึกษาจะไม่ประสงค์เข้าร่วม หลายสถาบันทั่วโลกจึงใช้หลักถือหุ้นส่วนน้อยแลกกับการสนับสนุน</p>
+  <ol>
+    <li><strong>แนวคิดของนักศึกษาเป็นของนักศึกษา</strong> สถานะนักศึกษาไม่ทำให้มหาวิทยาลัยมีสิทธิในธุรกิจโดยอัตโนมัติ</li>
+    <li><strong>ถือหุ้นส่วนน้อย แลกกับการสนับสนุน</strong> มหาวิทยาลัยได้รับสิทธิตามการสนับสนุนที่ระบุได้ เช่น ทุน พื้นที่ และพี่เลี้ยง</li>
+    <li><strong>กติกาชัดเจนก่อนเริ่มต้น</strong> ข้อตกลงเรื่องสิทธิ ผลประโยชน์ และการใช้ชื่อ SPU จัดทำเป็นลายลักษณ์อักษร</li>
+    <li><strong>แยกบทบาทผู้สอนและผู้ลงทุน</strong> อาจารย์ที่มีส่วนได้เสียในธุรกิจของนักศึกษาต้องเปิดเผย และไม่ประเมินผลการเรียนของทีมนั้น</li>
+  </ol>
+  <p>สัดส่วนหุ้นที่เหมาะสมจะกำหนดในระเบียบว่าด้วยทรัพย์สินทางปัญญาและการแบ่งผลประโยชน์ ซึ่งจัดทำระหว่างการศึกษา 90 วัน</p>
+
+  <h3>6.4 ผลที่นักศึกษาจะได้รับ</h3>
+  <ul>
+    <li>ประสบการณ์ทำงานกับลูกค้าและโจทย์ธุรกิจจริง</li>
+    <li>แฟ้มผลงานที่แสดงสมรรถนะด้านการสร้างธุรกิจ</li>
+    <li>เครือข่ายพี่เลี้ยง ศิษย์เก่า และนักลงทุน</li>
+    <li>โอกาสสร้างรายได้และเป็นเจ้าของธุรกิจตั้งแต่ยังศึกษาอยู่</li>
+  </ul>
+</section>
+
+<!-- ================= CHAPTER 7 ================= -->
+<section class="page" id="ch7" aria-labelledby="h-ch7">
+  <header class="chap-head"><div class="chap-no">07</div><div class="eyebrow">บทที่ 7</div><h2 id="h-ch7">แนวทางการสร้างรายได้อย่างยั่งยืน</h2></header>
+  <p class="lead">ความยั่งยืนไม่ได้มาจากการรอเงินปันผล แต่มาจากรายได้บริการที่สม่ำเสมอตั้งแต่ปีแรก แล้วจึงต่อยอดสู่รายได้จากสิทธิและผลตอบแทนจากการลงทุน</p>
+
+  <h3>7.1 รายได้สามระยะ</h3>
+  <h4>ระยะสั้น ปีที่ 1–2 · รายได้จากบริการ</h4>
+  <p>ใช้จุดแข็งด้านการสอนและธุรกิจของมหาวิทยาลัยสร้างรายได้ที่เริ่มได้ทันทีภายใต้ CCEI เช่น หลักสูตรอบรมผู้ประกอบการและผู้บริหาร โครงการนวัตกรรมองค์กรที่บริษัทสนับสนุนค่าโจทย์และค่าพัฒนาต้นแบบ และบริการที่ปรึกษาธุรกิจ</p>
+  <h4>ระยะกลาง ปีที่ 2–4 · รายได้จากสิทธิและความร่วมมือ</h4>
+  <p>เมื่อมีผลงานที่พร้อมใช้ มหาวิทยาลัยได้รับค่าอนุญาตให้ใช้สิทธิ ส่วนแบ่งรายได้จากธุรกิจที่ร่วมพัฒนา และค่าบริการร่วมที่ให้แก่บริษัทในพอร์ต เช่น บัญชี กฎหมาย และการตลาด</p>
+  <h4>ระยะยาว ปีที่ 5–10 · ผลตอบแทนจากการลงทุน</h4>
+  <p>รายได้จากเงินปันผล การขายหุ้น และค่าบริหารกองทุนร่วมลงทุนที่อาจจัดตั้งร่วมกับศิษย์เก่าและพันธมิตร รายได้กลุ่มนี้มีมูลค่าสูงแต่ไม่แน่นอน</p>
+
+  <h3>7.2 แหล่งรายได้และลักษณะของรายได้</h3>
+  <div class="tbl"><table>
+    <tr><th style="width:34%">แหล่งรายได้</th><th>ผู้ชำระ</th><th>เริ่มได้</th><th>ลักษณะ</th></tr>
+    <tr><td><b>หลักสูตรอบรมและ Executive Program</b></td><td>องค์กร ผู้ประกอบการ</td><td>ปีที่ 1</td><td>สม่ำเสมอ</td></tr>
+    <tr><td><b>โครงการนวัตกรรมองค์กร</b></td><td>บริษัทพันธมิตร</td><td>ปีที่ 1</td><td>ตามสัญญา</td></tr>
+    <tr><td><b>บริการที่ปรึกษาและบ่มเพาะ</b></td><td>ผู้ประกอบการ หน่วยงาน</td><td>ปีที่ 1–2</td><td>ตามสัญญา</td></tr>
+    <tr><td><b>ค่าอนุญาตให้ใช้สิทธิ</b></td><td>บริษัทผู้ใช้สิทธิ</td><td>ปีที่ 2–4</td><td>ตามยอดขาย</td></tr>
+    <tr><td><b>ค่าบริการร่วมแก่บริษัทในพอร์ต</b></td><td>บริษัทในพอร์ต</td><td>ปีที่ 2–4</td><td>สม่ำเสมอ</td></tr>
+    <tr><td><b>เงินปันผลและการขายหุ้น</b></td><td>บริษัทที่ลงทุน ผู้ซื้อหุ้น</td><td>ปีที่ 5 ขึ้นไป</td><td>ไม่แน่นอน</td></tr>
+    <tr><td><b>ค่าบริหารกองทุนร่วมลงทุน</b></td><td>กองทุนที่บริหาร</td><td>เมื่อจัดตั้งกองทุน</td><td>ตามขนาดกองทุน</td></tr>
+  </table></div>
+  <p style="margin-top:1.2em">ทุนสนับสนุนจากภาครัฐ เช่น NIA และ TED Fund ช่วยลดความเสี่ยงช่วงเริ่มต้น แต่ไม่นับเป็นรายได้ที่ยั่งยืน</p>
+
+  <h3>7.3 หลักการเพื่อความยั่งยืนทางการเงิน</h3>
+  <ol>
+    <li><strong>ค่าดำเนินงานมาจากรายได้บริการ</strong> ตั้งเป้าหมายพึ่งพาตนเองด้านค่าดำเนินงานภายในปีที่ <mark>[__]</mark></li>
+    <li><strong>หมุนเวียนผลตอบแทนเข้ากองทุนนวัตกรรม</strong> นำผลตอบแทนส่วนหนึ่ง <mark>[__%]</mark> กลับไปสนับสนุนโครงการรุ่นถัดไป เพื่อให้ระบบเติบโตโดยไม่ต้องขอเงินใหม่ทุกปี</li>
+    <li><strong>กระจายความเสี่ยงของพอร์ต</strong> ลงทุนหลายโครงการด้วยวงเงินจำกัดต่อดีล และเพิ่มทุนเฉพาะโครงการที่ผ่านเกณฑ์</li>
+    <li><strong>รายงานแยกประเภทเงิน</strong> แยกรายได้บริการ เงินสนับสนุนจากภายนอก มูลค่าหุ้นตามการประเมิน และเงินสดที่ SPU ได้รับจริง ออกจากกัน</li>
+  </ol>
+</section>
+
+<!-- ================= CHAPTER 8 ================= -->
+<section class="page" id="ch8" aria-labelledby="h-ch8">
+  <header class="chap-head"><div class="chap-no">08</div><div class="eyebrow">บทที่ 8</div><h2 id="h-ch8">กฎหมาย การกำกับดูแล และการบริหารความเสี่ยง</h2></header>
+  <p class="lead">ฐานกฎหมายสำหรับการจัดตั้งหรือร่วมลงทุนมีอยู่ แต่มหาวิทยาลัยต้องตรวจสอบข้อกำหนดเฉพาะของสถาบันเอกชนก่อนผูกพันเงินทุกครั้ง</p>
+
+  <h3>8.1 ฐานกฎหมาย</h3>
+  <p><strong>พ.ร.บ.การอุดมศึกษา พ.ศ. 2562 มาตรา 39</strong> เปิดให้สถาบันอุดมศึกษาจัดตั้งนิติบุคคล หรือร่วมลงทุนกับรัฐหรือเอกชน เพื่อใช้ประโยชน์จากผลการวิจัยและนวัตกรรม</p>
+  <p><strong>พ.ร.บ.สถาบันอุดมศึกษาเอกชน</strong> กำกับการใช้ทรัพย์สินและเงินทุนของสถาบัน เช่น มาตรา 61 ว่าด้วยการจัดสรรทุนเป็น 6 กองทุน การนำเงินหรือทรัพย์สินไปลงทุนในบริษัทจึงต้องตรวจสอบว่าทำได้เพียงใด ผ่านกองทุนใด และต้องขออนุมัติจากผู้ใด</p>
+  <p>มาตรา 39 ยังไม่เพียงพอที่จะสรุปว่าควรใช้เงินประเภทใด จัดตั้งผ่านผู้ใด หรือใช้ขั้นตอนอนุมัติใด ควรปรึกษา สอวช. และตรวจสอบว่าต้องแจ้งหรือขออนุมัติจาก สป.อว. หรือไม่</p>
+  <div class="note warn"><p><strong>ข้อสำคัญ</strong> การเป็นนักศึกษาหรืออาจารย์ของ SPU ไม่ได้ทำให้มหาวิทยาลัยมีสิทธิถือหุ้นในธุรกิจของบุคคลนั้นโดยอัตโนมัติ ต้องมีฐานสิทธิและข้อตกลงที่ชัดเจน</p></div>
+
+  <h3>8.2 ประเด็นที่ต้องได้รับความเห็นเป็นลายลักษณ์อักษร</h3>
+  <div class="tbl"><table>
+    <tr><th style="width:40%">ประเด็น</th><th>ผลงานที่ต้องส่งมอบ</th></tr>
+    <tr><td><b>อำนาจจัดตั้งบริษัทและอนุมัติลงทุน</b></td><td>แผนผังผู้มีอำนาจ และขั้นตอนอนุมัติของ SPU</td></tr>
+    <tr><td><b>ผู้ถือหุ้นที่เหมาะสม</b></td><td>เปรียบเทียบโครงสร้างผู้ถือหุ้น ทั้งมหาวิทยาลัยถือเอง ผู้รับใบอนุญาตถือ หรือบริษัทในเครือถือ พร้อมผลประโยชน์ที่ SPU ได้รับ</td></tr>
+    <tr><td><b>ประเภทเงินหรือทรัพย์สินที่ใช้ได้</b></td><td>รายการแหล่งเงินที่ใช้ได้ ข้อจำกัด และวงเงินที่เสนอ</td></tr>
+    <tr><td><b>ความเป็นเจ้าของผลงานและ IP</b></td><td>ทะเบียนสิทธิ และเงื่อนไขของมหาวิทยาลัย ผู้สร้างผลงาน ผู้ให้ทุน และพันธมิตร</td></tr>
+    <tr><td><b>การรับผลตอบแทน</b></td><td>โครงสร้างสัญญา ภาษีของเงินปันผลและการขายหุ้น บัญชี และการแบ่งผลประโยชน์</td></tr>
+    <tr><td><b>บุคลากรในฐานะผู้ก่อตั้งหรือผู้ถือหุ้น</b></td><td>กติกาผลประโยชน์ทับซ้อน เวลาทำงาน และการใช้ทรัพยากรมหาวิทยาลัย</td></tr>
+  </table></div>
+
+  <h3>8.3 โครงสร้างธรรมาภิบาล</h3>
+  <p>เมื่อจัดตั้ง Holding แล้ว เสนอให้มีโครงสร้างกำกับ 3 ส่วน</p>
+  <ul>
+    <li><strong>คณะกรรมการบริษัท</strong> ประกอบด้วยผู้แทนมหาวิทยาลัยและกรรมการภายนอกที่มีประสบการณ์ลงทุนหรือทำธุรกิจ</li>
+    <li><strong>คณะกรรมการลงทุน</strong> กำหนดเกณฑ์คัดเลือก วงเงินต่อดีล และอำนาจอนุมัติ</li>
+    <li><strong>นโยบายการลงทุน (Investment Thesis)</strong> ระบุประเภทธุรกิจ ระยะการลงทุน และวงเงินที่จะลงทุน</li>
+  </ul>
+
+  <h3>8.4 บทบาทและความรับผิดชอบ</h3>
+  <div class="tbl"><table>
+    <tr><th style="width:34%">ผู้รับผิดชอบ</th><th>บทบาท</th></tr>
+    <tr><td><b>ผู้บริหารผู้กำกับโครงการ</b></td><td>กำหนดทิศทาง เชื่อมหน่วยงาน และเสนอเรื่องต่อผู้มีอำนาจ</td></tr>
+    <tr><td><b>CCEI</b></td><td>ค้นหาและพัฒนาทีม ติดตามโครงการ เชื่อมลูกค้า พันธมิตร และแหล่งทุน</td></tr>
+    <tr><td><b>ฝ่าย IP และกฎหมาย</b></td><td>ตรวจสิทธิ จัดทำสัญญา และกำหนดกติกาการใช้ทรัพยากร</td></tr>
+    <tr><td><b>ฝ่ายการเงินและบัญชี</b></td><td>ประเมินงบประมาณ กระแสเงินสด ภาษี และระบบรายงาน</td></tr>
+    <tr><td><b>ผู้เชี่ยวชาญภายนอก</b></td><td>ตรวจสมมติฐานตลาด มูลค่ากิจการ และเงื่อนไขการลงทุน</td></tr>
+  </table></div>
+  <p style="margin-top:1.2em"><strong>หลักธรรมาภิบาล</strong> แยกผู้พัฒนาโครงการ ผู้กลั่นกรองการลงทุน และผู้อนุมัติ ออกจากกัน ผู้มีส่วนได้เสียในดีลต้องเปิดเผยและงดออกเสียงในเรื่องนั้น</p>
+
+  <h3>8.5 เงื่อนไข 6 ข้อก่อนจัดตั้ง Holding และลงทุน</h3>
+  <ol>
+    <li><strong>ข้อกฎหมายชัดเจน</strong> มีความเห็นเรื่องผู้ถือหุ้น อำนาจอนุมัติ แหล่งเงิน และขั้นตอนที่เกี่ยวข้อง</li>
+    <li><strong>มีธุรกิจให้พิจารณาจริง</strong> อย่างน้อย 2 โครงการผ่านการตรวจสอบเบื้องต้นและมีหลักฐานตลาด</li>
+    <li><strong>มีผู้บริหารรับผิดชอบ</strong> ระบุผู้ดูแลงานประจำ พร้อมหน้าที่และเวลาปฏิบัติงาน</li>
+    <li><strong>มีงบประมาณรองรับ</strong> แยกเงินดำเนินงาน เงินลงทุน และเงินสำรองอย่างชัดเจน</li>
+    <li><strong>มีกติกาการลงทุน</strong> วงเงินต่อดีล เงื่อนไขจ่ายเงิน การติดตาม และเงื่อนไขหยุดสนับสนุน</li>
+    <li><strong>มีระบบคุ้มครองสิทธิ</strong> สัญญาผู้ก่อตั้ง IP การใช้ชื่อ SPU และผลประโยชน์ทับซ้อนครบถ้วน</li>
+  </ol>
+  <p>นโยบายเบื้องต้นกำหนดให้ <strong>การค้ำประกันหนี้และการลงทุนเพิ่มต้องขออนุมัติแยกทุกครั้ง</strong> เพื่อไม่ให้ภาระของมหาวิทยาลัยขยายโดยไม่ผ่านการพิจารณา</p>
+
+  <h3>8.6 ความเสี่ยงและแนวทางรับมือ</h3>
+  <div class="tbl"><table>
+    <tr><th style="width:24%">ความเสี่ยง</th><th>ลักษณะ</th><th style="width:38%">แนวทางรับมือ</th></tr>
+    <tr><td><b>ผลตอบแทนใช้เวลานาน</b></td><td>การลงทุนระยะ 5–10 ปี และหลายโครงการอาจไม่สำเร็จ</td><td>ใช้รายได้บริการรองรับค่าดำเนินงาน กระจายการลงทุน และตั้งความคาดหวังผู้บริหารตั้งแต่ต้น</td></tr>
+    <tr><td><b>ผลประโยชน์ทับซ้อน</b></td><td>อาจารย์เป็นทั้งผู้สอนและผู้ถือหุ้นในธุรกิจนักศึกษา</td><td>ระเบียบเปิดเผยส่วนได้เสีย และแยกบทบาทการประเมินผล</td></tr>
+    <tr><td><b>ภาพลักษณ์องค์กร</b></td><td>บริษัทในพอร์ตมีปัญหา กระทบชื่อมหาวิทยาลัย</td><td>กติกาการใช้ชื่อ SPU และการติดตามบริษัทอย่างสม่ำเสมอ</td></tr>
+    <tr><td><b>ภาระงานบุคลากร</b></td><td>งานตกอยู่กับอาจารย์ที่มีภาระสอน</td><td>ผู้รับผิดชอบงานประจำ และที่ปรึกษาภายนอก</td></tr>
+  </table></div>
+</section>
+
+<!-- ================= CHAPTER 9 ================= -->
+<section class="page" id="ch9" aria-labelledby="h-ch9">
+  <header class="chap-head"><div class="chap-no">09</div><div class="eyebrow">บทที่ 9</div><h2 id="h-ch9">จุดเริ่มต้นและแผนดำเนินงาน</h2></header>
+  <p class="lead">ควรเริ่มจากสิ่งที่ไม่ต้องจัดตั้งบริษัท และสร้างหลักฐานก่อนผูกพันเงินลงทุน ก้าวแรกทั้งหมดดำเนินการได้ภายใต้อำนาจเดิมของมหาวิทยาลัย</p>
+
+  <h3>9.1 ก้าวแรกภายใน 90 วัน</h3>
+  <div class="tbl"><table>
+    <tr><th style="width:24%">ช่วงเวลา</th><th>การดำเนินงาน</th></tr>
+    <tr><td><b>สัปดาห์ที่ 1–2</b></td><td>แต่งตั้งผู้บริหารผู้กำกับโครงการ และคณะทำงาน</td></tr>
+    <tr><td><b>เดือนที่ 1</b></td><td>สำรวจโครงการ ทีม ผลงาน และ IP ที่มีอยู่ อย่างน้อย 20 โครงการ</td></tr>
+    <tr><td><b>เดือนที่ 1–3</b></td><td>จัดทำความเห็นด้านกฎหมายและการเงิน</td></tr>
+    <tr><td><b>เดือนที่ 2</b></td><td>เปิด Venture Studio นำร่องใน CCEI และคัดเลือก 5 โครงการ</td></tr>
+    <tr><td><b>เดือนที่ 2–3</b></td><td>ร่างกติกา IP และการแบ่งผลประโยชน์ พร้อมเปิดรายได้บริการนำร่อง 1 โครงการ</td></tr>
+    <tr><td><b>สิ้นเดือนที่ 3</b></td><td>จัด Demo Day ครั้งแรก และเสนอผลการศึกษาต่อผู้บริหาร</td></tr>
+  </table></div>
+  <p style="margin-top:1.2em">ระหว่างนี้ควรเชิญ UHC ของมหาวิทยาลัยอื่นหรือ สอวช. มาเป็นวิทยากร เพื่อสร้างความเข้าใจร่วมกัน ผลงานช่วงนี้จะเป็นหลักฐานที่แข็งแรงที่สุดในการเสนอต่อสภามหาวิทยาลัย</p>
+
+  <h3>9.2 แผนดำเนินงาน 12 เดือน</h3>
+  <div class="tbl"><table>
+    <tr><th style="width:17%">ช่วงเวลา</th><th>งานสำคัญ</th><th style="width:24%">ผู้รับผิดชอบหลัก</th><th style="width:24%">ผลส่งมอบ</th></tr>
+    <tr><td><b>เดือนที่ 1</b></td><td>ตั้งคณะทำงาน สำรวจนิติบุคคลเดิม ผลงาน ทีม IP และพันธมิตร</td><td>ผู้บริหารผู้กำกับ + CCEI</td><td>รายงานฐานทรัพยากรและช่องว่าง</td></tr>
+    <tr><td><b>เดือนที่ 2–3</b></td><td>ศึกษากฎหมายและความคุ้มค่า คัดเลือกโครงการ ออกแบบงบและกติกา</td><td>กฎหมาย + การเงิน + CCEI</td><td>ข้อเสนอรูปแบบองค์กรและแผนธุรกิจ</td></tr>
+    <tr><td><b>สิ้นเดือนที่ 3</b></td><td>จุดตัดสินใจ: พิจารณาผลการศึกษา</td><td>ผู้มีอำนาจของ SPU</td><td>มติดำเนินการต่อ ปรับรูปแบบ หรือชะลอ</td></tr>
+    <tr><td><b>เดือนที่ 4–6</b></td><td>พัฒนาต้นแบบ ทดลองตลาด ตรวจ IP และสร้างทีมผู้ก่อตั้ง</td><td>CCEI + ทีมโครงการ + ผู้เชี่ยวชาญ</td><td>โครงการนำร่องพร้อมข้อมูลตลาด</td></tr>
+    <tr><td><b>เดือนที่ 7–9</b></td><td>หากผ่านเงื่อนไข จัดตั้งหรือปรับนิติบุคคล แต่งตั้งทีม และพิจารณาดีลแรก</td><td>กฎหมาย + การเงิน + ผู้บริหารบริษัท</td><td>ระบบบริษัทและข้อเสนอลงทุน</td></tr>
+    <tr><td><b>เดือนที่ 10–12</b></td><td>ดำเนินธุรกรรมที่ได้รับอนุมัติ ติดตามผล และทบทวนแผนปีถัดไป</td><td>บริษัท + CCEI + การเงิน</td><td>รายงานผลโครงการ การลงทุน และเงินสด</td></tr>
+  </table></div>
+  <p style="margin-top:1.2em">การจดทะเบียนบริษัทขึ้นกับความพร้อม มิใช่กำหนดให้ต้องจดเมื่อถึงเดือนที่ระบุ</p>
+
+  <h3>9.3 กรอบงบประมาณนำร่อง 12 เดือน</h3>
+  <div class="tbl"><table>
+    <tr><th>รายการ</th><th class="num">วงเงิน (บาท)</th></tr>
+    <tr><td>ศึกษากฎหมาย ภาษี โครงสร้าง และแผนธุรกิจ</td><td class="num">300,000</td></tr>
+    <tr><td>ผู้เชี่ยวชาญและการตรวจสอบธุรกิจ/IP</td><td class="num">300,000</td></tr>
+    <tr><td>ทดลองต้นแบบและตลาด 5 โครงการ (เฉลี่ยโครงการละ 100,000)</td><td class="num">500,000</td></tr>
+    <tr><td>ประสานงาน ติดตาม และจัดการข้อมูลโครงการ</td><td class="num">200,000</td></tr>
+    <tr><td>เงินสำรอง</td><td class="num">200,000</td></tr>
+    <tr class="total"><td>รวมงบนำร่อง 12 เดือน</td><td class="num">1,500,000</td></tr>
+  </table></div>
+  <ul style="margin-top:1.2em">
+    <li>ตัวเลขเป็นสมมติฐานเพื่อการวางแผน ไม่ใช่ราคาประเมินจากผู้ให้บริการ โดยใช้พื้นที่และบุคลากรหลักเดิม</li>
+    <li>ขออนุมัติระยะแรก <strong>ไม่เกิน 300,000 บาท</strong> สำหรับการศึกษา 90 วัน ส่วนที่เหลืออนุมัติตามผลการศึกษา</li>
+    <li>ไม่รวมบุคลากรใหม่เต็มเวลา เงินลงทุนซื้อหุ้น และค่าดำเนินงานของบริษัทหลังจัดตั้ง</li>
+    <li>เงินลงทุนซื้อหุ้นจะเสนอแยก พร้อมแผนกระแสเงินสดบริษัทอย่างน้อย 24 เดือน และวงเงินที่มหาวิทยาลัยยอมรับความเสี่ยงได้</li>
+    <li>ทุนจดทะเบียน เงินลงทุน และงบดำเนินงานเป็นคนละรายการ ต้องไม่รวมซ้ำ</li>
+  </ul>
+
+  <h3>9.4 ตัวชี้วัดปีแรก</h3>
+  <div class="tbl"><table>
+    <tr><th style="width:18%">มิติ</th><th>ตัวชี้วัด</th><th class="num">เป้าหมาย</th></tr>
+    <tr><td>โครงการ</td><td>โครงการที่สำรวจและมีข้อมูลครบ</td><td class="num">20</td></tr>
+    <tr><td>โครงการ</td><td>โครงการที่ผ่านการคัดเลือกเข้าพัฒนา</td><td class="num">8</td></tr>
+    <tr><td>ตลาด</td><td>โครงการที่ทดลองกับลูกค้าหรือองค์กรจริง</td><td class="num">5</td></tr>
+    <tr><td>ตลาด</td><td>โครงการที่มีลูกค้าชำระเงิน หรือสัญญาทดลองแบบมีค่าตอบแทน</td><td class="num">2</td></tr>
+    <tr><td>ตลาด</td><td>โครงการที่ผ่านการตรวจสอบ พร้อมให้ใช้สิทธิหรือร่วมลงทุน</td><td class="num">2</td></tr>
+    <tr><td>นักศึกษา</td><td>นักศึกษาที่เข้าร่วมกิจกรรมสร้างธุรกิจ</td><td class="num"><mark>[__] คน</mark></td></tr>
+    <tr><td>รายได้</td><td>รายได้บริการนำร่อง</td><td class="num"><mark>[__] บาท</mark></td></tr>
+    <tr><td>การลงทุน</td><td>ดีลลงทุน ตามคุณภาพและเงื่อนไข</td><td class="num">0–2</td></tr>
+    <tr><td>ธรรมาภิบาล</td><td>ตรวจสิทธิและผลประโยชน์ทับซ้อนครบก่อนทำธุรกรรม</td><td class="num">100%</td></tr>
+  </table></div>
+  <p style="margin-top:1.2em">ไม่กำหนดให้ต้องลงทุนเพื่อให้ครบตัวชี้วัด หากไม่มีโครงการผ่านเกณฑ์ การชะลอการลงทุนพร้อมเหตุผลที่ตรวจสอบได้ถือเป็นการบริหารเงินที่เหมาะสม ในระยะยาวควรติดตามอัตราการอยู่รอดของบริษัทหลัง 3 ปี และเงินทุนภายนอกที่ระดมได้เพิ่มเติม</p>
+</section>
+
+<!-- ================= CHAPTER 10 ================= -->
+<section class="page" id="ch10" aria-labelledby="h-ch10">
+  <header class="chap-head"><div class="chap-no">10</div><div class="eyebrow">บทที่ 10</div><h2 id="h-ch10">ข้อเสนอเพื่อโปรดพิจารณา</h2></header>
+  <p class="lead">จึงเรียนมาเพื่อโปรดพิจารณา 5 ประเด็น โดยยังไม่มีการจัดตั้งบริษัทหรือผูกพันเงินลงทุน จนกว่าจะนำผลการศึกษากลับมาเสนออีกครั้ง</p>
+  <ol>
+    <li>เห็นชอบหลักการพัฒนา <strong>SPU Venture &amp; University Holding Initiative</strong></li>
+    <li>มอบหมาย <strong>ศูนย์สร้างสรรค์ผู้ประกอบการและนวัตกรรม (CCEI)</strong> เป็นหน่วยประสานหลัก ร่วมกับฝ่ายกฎหมาย การเงิน หน่วยงานวิจัย และคณะที่เกี่ยวข้อง</li>
+    <li>แต่งตั้งคณะทำงานศึกษาความเป็นไปได้ โดยมีผู้บริหารระดับมหาวิทยาลัยเป็นผู้กำกับ</li>
+    <li>เห็นชอบกรอบการศึกษา 90 วัน <strong>วงเงินไม่เกิน 300,000 บาท</strong> ตามระเบียบของมหาวิทยาลัย</li>
+    <li>ให้คณะทำงานเสนอผลการศึกษา โครงสร้างองค์กร แผนการเงิน และโครงการนำร่อง ก่อนการจัดตั้งบริษัทหรือผูกพันเงินลงทุน</li>
+  </ol>
+  <h3>สารหลัก</h3>
+  <blockquote>SPU มีโอกาสพัฒนาความรู้และศักยภาพของบุคลากรและนักศึกษา ให้เกิดธุรกิจที่ใช้ได้จริง โดยให้ CCEI สร้างและพัฒนาโครงการ และเตรียมกลไกการร่วมลงทุนที่ทำให้มหาวิทยาลัยได้รับผลตอบแทนอย่างเหมาะสม โปร่งใส และสอดคล้องกับพันธกิจการศึกษา</blockquote>
+</section>
+
+<!-- ================= APPENDIX ================= -->
+<section class="page" id="appx" aria-labelledby="h-appx">
+  <div class="eyebrow">ภาคผนวก</div>
+  <h2 id="h-appx">อภิธานศัพท์และหมายเหตุ</h2>
+  <h3>อภิธานศัพท์</h3>
+  <dl>
+    <dt>University Holding Company (UHC)</dt><dd>นิติบุคคลที่มหาวิทยาลัยจัดตั้งเพื่อลงทุนและถือหุ้นในธุรกิจที่เกิดจากมหาวิทยาลัย</dd>
+    <dt>Spin-off</dt><dd>บริษัทที่แยกตัวออกมาจากมหาวิทยาลัย โดยนำผลงานหรือความรู้ของมหาวิทยาลัยไปทำธุรกิจ</dd>
+    <dt>Venture Builder</dt><dd>รูปแบบที่ผู้ลงทุนร่วมสร้างธุรกิจตั้งแต่ต้น ทั้งทีม ต้นแบบ และตลาด</dd>
+    <dt>Venture Studio</dt><dd>หน่วยปฏิบัติการที่พัฒนาหลายโครงการพร้อมกัน ด้วยทรัพยากรและผู้เชี่ยวชาญร่วม</dd>
+    <dt>Deal Flow</dt><dd>ท่อป้อนโครงการที่เข้ามาให้พิจารณาลงทุนอย่างต่อเนื่อง</dd>
+    <dt>Demo Day</dt><dd>เวทีที่ทีมนำเสนอธุรกิจต่อผู้ลงทุน พันธมิตร และคณะกรรมการคัดเลือก</dd>
+    <dt>Reverse Pitching</dt><dd>กิจกรรมที่บริษัทเอกชนนำเสนอโจทย์ แล้วให้ทีมนักศึกษาหรือนักวิจัยเสนอแนวทางแก้</dd>
+    <dt>Licensing</dt><dd>การอนุญาตให้ผู้อื่นใช้ผลงานหรือทรัพย์สินทางปัญญา โดยได้รับค่าตอบแทน</dd>
+    <dt>Due Diligence</dt><dd>การตรวจสอบธุรกิจอย่างรอบด้านก่อนตัดสินใจลงทุน</dd>
+    <dt>Exit</dt><dd>การขายหุ้นเพื่อรับผลตอบแทนจากการลงทุน</dd>
+    <dt>Investment Thesis</dt><dd>นโยบายที่ระบุประเภทธุรกิจ ระยะ และวงเงินที่จะลงทุน</dd>
+  </dl>
+  <h3>หมายเหตุ</h3>
+  <ul>
+    <li>ตัวเลขสถานการณ์ UHC ในประเทศไทยมาจากข้อมูลประกอบข้อเสนอ ควรตรวจทานกับ สอวช. ก่อนเผยแพร่</li>
+    <li>ประเด็นกฎหมายเป็นข้อมูลเบื้องต้น ไม่ใช่ความเห็นทางกฎหมาย ต้องให้ฝ่ายกฎหมายยืนยันก่อนดำเนินการ</li>
+    <li>งบประมาณและตัวชี้วัดเป็นสมมติฐานเพื่อการวางแผน ค่าในวงเล็บ <mark>[__]</mark> จะกำหนดระหว่างการศึกษา 90 วัน</li>
+  </ul>
+</section>
+
+<p class="colophon">ศูนย์สร้างสรรค์ผู้ประกอบการและนวัตกรรม · คณะการสร้างเจ้าของธุรกิจ · มหาวิทยาลัยศรีปทุม · พ.ศ. 2569</p>
+</div>
+</body></html>
